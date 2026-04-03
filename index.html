@@ -3,44 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VEGAMOVIES | 2026 Official</title>
+    <title>VEGAMOVIES | Home</title>
     <style>
         :root {
             --bg-body: #0a0a0a;
-            --bg-card: #151515;
+            --bg-card: #1a1a1a;
             --accent: #4CAF50;
             --text: #ffffff;
-            --sub-text: #888;
         }
 
         body {
             background-color: var(--bg-body);
             color: var(--text);
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
 
+        /* Header Styling */
         header {
             background: #000;
-            padding: 30px 20px;
+            padding: 25px 20px;
             text-align: center;
             border-bottom: 3px solid var(--accent);
         }
 
-        .logo { font-size: 32px; font-weight: bold; margin-bottom: 20px; text-transform: uppercase; }
+        .logo { font-size: 28px; font-weight: 800; letter-spacing: 2px; margin-bottom: 15px; }
         .logo span { color: var(--accent); }
 
-        .search-bar {
-            max-width: 700px;
+        /* Search Bar Styling */
+        .search-area {
+            max-width: 650px;
             margin: 0 auto;
             display: flex;
-            background: #222;
+            background: #252525;
             padding: 5px;
-            border-radius: 5px;
+            border-radius: 4px;
         }
 
-        .search-bar input {
+        .search-area input {
             flex: 1;
             background: transparent;
             border: none;
@@ -50,162 +51,169 @@
             outline: none;
         }
 
-        .search-bar button {
+        .search-area button {
             background: var(--accent);
             border: none;
             color: white;
             padding: 0 25px;
-            border-radius: 4px;
             font-weight: bold;
             cursor: pointer;
+            border-radius: 3px;
         }
 
-        .container { max-width: 1400px; margin: 40px auto; padding: 0 20px; }
-        .section-title {
-            font-size: 20px;
-            margin-bottom: 25px;
+        /* Grid Layout */
+        .container { max-width: 1400px; margin: 30px auto; padding: 0 20px; }
+        
+        .section-header {
+            font-size: 18px;
+            margin-bottom: 20px;
             border-left: 4px solid var(--accent);
-            padding-left: 15px;
+            padding-left: 12px;
+            text-transform: uppercase;
         }
 
         #movie-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
             gap: 20px;
         }
 
+        /* Movie Card Styling */
         .movie-card {
             background: var(--bg-card);
-            border-radius: 8px;
+            border-radius: 5px;
             overflow: hidden;
-            position: relative;
             transition: 0.3s;
             cursor: pointer;
+            position: relative;
             text-decoration: none;
             color: white;
-            display: block;
         }
 
-        .movie-card:hover { transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .movie-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
 
-        .poster-container { position: relative; width: 100%; aspect-ratio: 2/3; }
-        .movie-poster { width: 100%; height: 100%; object-fit: cover; }
+        .poster-box { position: relative; width: 100%; aspect-ratio: 2/3; }
+        .movie-img { width: 100%; height: 100%; object-fit: cover; }
 
-        .quality-tag {
+        .badge-quality {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 8px;
+            left: 8px;
             background: var(--accent);
-            font-size: 11px;
-            padding: 2px 8px;
+            font-size: 10px;
+            padding: 2px 6px;
             font-weight: bold;
-            border-radius: 3px;
+            border-radius: 2px;
         }
 
-        .rating-tag {
+        .badge-rating {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(0,0,0,0.8);
+            top: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.7);
             color: #ffc107;
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 3px;
+            font-size: 10px;
+            padding: 2px 6px;
             border: 1px solid #ffc107;
+            border-radius: 2px;
         }
 
-        .info { padding: 12px; }
-        .title {
-            font-size: 14px;
+        .movie-info { padding: 10px; }
+        .movie-name {
+            font-size: 13px;
             font-weight: 600;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .meta { font-size: 12px; color: var(--sub-text); }
+        .movie-year { font-size: 11px; color: #999; }
     </style>
 </head>
 <body>
 
 <header>
     <div class="logo">VEGA<span>MOVIES</span></div>
-    <div class="search-bar">
-        <input type="text" id="movieSearch" placeholder="Search 2026 or movie name...">
-        <button onclick="performSearch()">SEARCH</button>
+    <div class="search-area">
+        <input type="text" id="queryInput" placeholder="Search movies, years, or titles...">
+        <button onclick="userSearch()">SEARCH</button>
     </div>
 </header>
 
 <div class="container">
-    <div class="section-title" id="gridLabel">Loading...</div>
-    <div id="movie-grid"></div>
+    <div class="section-header" id="listTitle">Latest Movies (2026)</div>
+    <div id="movie-grid">
+        </div>
 </div>
 
 <script>
     const API_KEY = "vajira-4h3jzwtl78-1775239300004";
-    const API_URL = "https://vajira-official-apis.vercel.app/api/vegamovies";
+    const API_LINK = "https://vajira-official-apis.vercel.app/api/vegamovies";
 
-    async function performSearch() {
-        const query = document.getElementById('movieSearch').value || "2026";
+    // CORE FUNCTION: Fetches and displays data
+    async function loadMovies(searchTerm, isInitial = false) {
         const grid = document.getElementById('movie-grid');
-        const label = document.getElementById('gridLabel');
+        const title = document.getElementById('listTitle');
 
-        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 50px;">Fetching Latest Content...</div>';
-        label.innerText = `Showing results for: ${query}`;
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px;">Loading...</div>';
+        
+        if (!isInitial) {
+            title.innerText = `Search Results: ${searchTerm}`;
+        }
 
         try {
-            // We fetch with the search text. 
-            const response = await fetch(`${API_URL}?apikey=${API_KEY}&text=${query}`);
-            const data = await response.json();
+            const res = await fetch(`${API_LINK}?apikey=${API_KEY}&text=${searchTerm}`);
+            const data = await res.json();
 
             if (data.result && data.result.length > 0) {
                 grid.innerHTML = "";
-                
-                data.result.forEach(movie => {
-                    // Logic to clean up the Year display (handles both "2025" and "03-04-2026, 09:30")
-                    let displayYear = movie.year;
-                    if(movie.year.includes('-')) {
-                        // Extracts the year from the date string "03-04-2026"
-                        const dateParts = movie.year.split(',')[0].split('-');
-                        displayYear = dateParts[2] || dateParts[0]; 
+                data.result.forEach(item => {
+                    // Extract Year properly from "03-04-2026, 09:30"
+                    let cleanYear = item.year;
+                    if(item.year.includes('-')) {
+                        const parts = item.year.split(',')[0].split('-');
+                        cleanYear = parts[2] || parts[0];
                     }
 
-                    const displayQuality = (movie.quality === "N/A" || !movie.quality) ? "FEATURED" : movie.quality;
-                    
                     const card = `
-                        <div class="movie-card" onclick="window.open('https://vegaduo.com/${movie.link}', '_blank')">
-                            <div class="poster-container">
-                                <span class="quality-tag">${displayQuality}</span>
-                                <span class="rating-tag">★ ${movie.rating || '0'}</span>
-                                <img src="${movie.image}" alt="${movie.title}" class="movie-poster" onerror="this.src='https://via.placeholder.com/200x300?text=No+Poster'">
+                        <div class="movie-card" onclick="window.open('https://vegaduo.com/${item.link}', '_blank')">
+                            <div class="poster-box">
+                                <span class="badge-quality">${item.quality === 'N/A' ? 'HD' : item.quality}</span>
+                                <span class="badge-rating">★ ${item.rating}</span>
+                                <img src="${item.image}" alt="poster" class="movie-img" onerror="this.src='https://via.placeholder.com/200x300?text=No+Image'">
                             </div>
-                            <div class="info">
-                                <div class="title">${movie.title}</div>
-                                <div class="meta">
-                                    <span>Year: ${displayYear}</span>
-                                </div>
+                            <div class="movie-info">
+                                <div class="movie-name">${item.title}</div>
+                                <div class="movie-year">Year: ${cleanYear}</div>
                             </div>
                         </div>
                     `;
                     grid.innerHTML += card;
                 });
             } else {
-                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 50px;">No movies found for this search.</div>';
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px;">No results found.</div>';
             }
-        } catch (error) {
-            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 50px; color: red;">API Connection Error.</div>';
+        } catch (err) {
+            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: red;">API Error.</div>';
         }
     }
 
-    // Default Load on Start
+    // Triggered by Search Button
+    function userSearch() {
+        const val = document.getElementById('queryInput').value;
+        if(val) {
+            loadMovies(val);
+        }
+    }
+
+    // HOME PAGE LOAD: Always 2026
     window.onload = () => {
-        document.getElementById('movieSearch').value = "2026";
-        performSearch();
+        loadMovies('2026', true);
     };
 
-    // Enter Key Support
-    document.getElementById('movieSearch').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') performSearch();
+    // Support Enter Key
+    document.getElementById('queryInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') userSearch();
     });
 </script>
 
