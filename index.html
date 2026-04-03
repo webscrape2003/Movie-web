@@ -3,244 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MovieFlex | Cinema Database</title>
+    <title>Movie Finder | Vegamovies API</title>
     <style>
-        /* --- CSS STYLING --- */
         :root {
-            --primary: #e50914;
             --bg-dark: #0f0f0f;
-            --bg-card: #1a1a1a;
+            --container-bg: #1a1a1a;
+            --accent-blue: #007bff;
             --text-main: #ffffff;
-            --text-dim: #b3b3b3;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --text-dim: #bbbbbb;
+            --res-red: #ff4d4d;
         }
 
         body {
             background-color: var(--bg-dark);
             color: var(--text-main);
-            line-height: 1.6;
+            font-family: 'Arial', sans-serif;
+            margin: 0; padding: 0;
         }
 
-        header {
+        /* SEARCH BAR SECTION */
+        .search-section {
+            background: #000;
+            padding: 20px 10%;
+            border-bottom: 2px solid #333;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 5%;
-            background: rgba(0, 0, 0, 0.9);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            gap: 10px;
+            justify-content: center;
         }
 
-        .logo {
-            font-size: 26px;
-            font-weight: 900;
-            color: var(--primary);
-            text-decoration: none;
-            letter-spacing: -1px;
-        }
-
-        .search-container {
-            display: flex;
-            gap: 8px;
-            background: #333;
-            padding: 5px 10px;
-            border-radius: 4px;
-        }
-
-        input {
-            background: transparent;
-            border: none;
-            color: white;
-            padding: 8px;
+        #movieUrlInput {
+            width: 60%;
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background: #222;
+            color: #fff;
             outline: none;
-            width: 200px;
         }
 
-        button {
-            background: var(--primary);
-            color: white;
+        #fetchBtn {
+            padding: 12px 25px;
+            background: #2ecc71;
             border: none;
-            padding: 8px 15px;
-            border-radius: 3px;
-            cursor: pointer;
+            color: white;
             font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #fetchBtn:hover { background: #27ae60; }
+
+        /* MAIN LAYOUT */
+        .header { background: #111; padding: 15px 10%; display: flex; align-items: center; border-bottom: 1px solid #333; }
+        .logo { font-size: 24px; font-weight: bold; color: #fff; }
+        .logo span { color: #f39c12; }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 25px;
+            padding: 0 15px;
+        }
+
+        .content-area { background: var(--container-bg); padding: 25px; border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        
+        .movie-title { font-size: 24px; color: #00acee; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
+
+        .player-placeholder {
+            width: 100%;
+            height: 400px;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #333;
+            margin-bottom: 20px;
+        }
+
+        .meta-flex { display: flex; gap: 20px; margin-bottom: 30px; }
+        .poster { width: 200px; border: 2px solid #333; border-radius: 5px; }
+        .details p { margin: 10px 0; font-size: 15px; }
+        .details strong { color: #aaa; width: 120px; display: inline-block; }
+
+        /* DOWNLOAD BUTTONS */
+        .download-zone { margin-top: 40px; text-align: center; }
+        .res-tag { color: var(--res-red); font-size: 20px; font-weight: bold; display: block; margin: 20px 0 10px; border-top: 1px solid #333; padding-top: 15px;}
+        .dl-link {
+            display: block;
+            width: 80%;
+            margin: 0 auto 10px auto;
+            background: var(--accent-blue);
+            color: white;
+            padding: 15px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            border-bottom: 3px solid #0056b3;
             transition: 0.2s;
         }
+        .dl-link:hover { transform: scale(1.02); background: #0069d9; }
 
-        button:hover {
-            background: #b20710;
-        }
+        /* SIDEBAR */
+        .sidebar h3 { font-size: 16px; border-left: 4px solid var(--accent-blue); padding-left: 10px; margin-bottom: 15px; }
+        .side-card { display: flex; background: #222; margin-bottom: 10px; border-radius: 4px; overflow: hidden; }
+        .side-card img { width: 70px; height: 100px; object-fit: cover; }
+        .side-info { padding: 10px; }
+        .side-info .t { font-size: 13px; font-weight: bold; color: #fff; display: block; }
+        .side-info .r { font-size: 12px; color: #f1c40f; margin-top: 5px; display: block; }
 
-        main {
-            padding: 40px 5%;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 25px;
-        }
-
-        /* Movie Card Design */
-        .movie-card {
-            background: var(--bg-card);
-            border-radius: 8px;
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .movie-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.6);
-        }
-
-        .poster-container {
-            position: relative;
-            height: 270px;
-        }
-
-        .movie-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .quality-tag {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: var(--primary);
-            font-size: 11px;
-            font-weight: bold;
-            padding: 2px 6px;
-            border-radius: 2px;
-        }
-
-        .info {
-            padding: 12px;
-        }
-
-        .info h3 {
-            font-size: 14px;
-            margin-bottom: 5px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: var(--text-dim);
-        }
-
-        .rating {
-            color: #ffb400;
-            font-weight: bold;
-        }
-
-        /* Loading & Messages */
-        .status-msg {
-            grid-column: 1 / -1;
+        #loadingOverlay {
+            display: none;
             text-align: center;
             padding: 50px;
-            font-size: 18px;
-            color: var(--text-dim);
+            font-size: 20px;
+            color: #2ecc71;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <a href="#" class="logo">MOVIEFLEX</a>
-        <div class="search-container">
-            <input type="text" id="userInput" placeholder="Search year (e.g. 2024)..." onkeypress="handleKey(event)">
-            <button onclick="fetchMovies()">Search</button>
-        </div>
-    </header>
+    <div class="search-section">
+        <input type="text" id="movieUrlInput" placeholder="Paste Vegamovies URL here (e.g. https://vegaduo.com/movie-name.html)">
+        <button id="fetchBtn">Fetch Details</button>
+    </div>
 
-    <main>
-        <div id="movieGrid" class="grid">
+    <div id="loadingOverlay">🔄 Fetching movie data... Please wait.</div>
+
+    <div class="main-container" id="mainLayout">
+        <div class="content-area">
+            <h1 id="movieTitle" class="movie-title">Movie Details will appear here</h1>
+            
+            <div class="player-placeholder">
+                <div style="font-size: 50px; color: #333;">▶</div>
             </div>
-    </main>
+
+            <div class="meta-flex">
+                <img id="mainPoster" src="https://via.placeholder.com/200x300?text=No+Poster" alt="Poster" class="poster">
+                <div class="details">
+                    <p><strong>Title:</strong> <span id="origTitle">-</span></p>
+                    <p><strong>Release:</strong> <span id="relDate">-</span></p>
+                    <p><strong>Duration:</strong> <span id="duration">-</span></p>
+                    <p><strong>Genre:</strong> <span id="genres">-</span></p>
+                </div>
+            </div>
+
+            <div class="download-zone" id="downloadLinks"></div>
+            
+            <div style="margin-top:30px;">
+                <h3>Description</h3>
+                <p id="description" style="line-height:1.6; color:#ccc;"></p>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <h3>Popular Content</h3>
+            <div id="popularList"></div>
+        </div>
+    </div>
 
     <script>
-        /* --- JAVASCRIPT LOGIC --- */
-        
-        // Function to handle "Enter" key press
-        function handleKey(e) {
-            if (e.key === 'Enter') fetchMovies();
-        }
+        const fetchBtn = document.getElementById('fetchBtn');
+        const urlInput = document.getElementById('movieUrlInput');
+        const loading = document.getElementById('loadingOverlay');
 
-        async function fetchMovies() {
-            const grid = document.getElementById('movieGrid');
-            const query = document.getElementById('userInput').value || '2026';
-            const apiKey = 'vajira-4h3jzwtl78-1775239300004';
-            const apiUrl = `https://vajira-official-apis.vercel.app/api/vegamovies?apikey=${apiKey}&text=${query}`;
+        fetchBtn.addEventListener('click', async () => {
+            const movieUrl = urlInput.value.trim();
+            if (!movieUrl) return alert("Please paste a URL first!");
 
-            grid.innerHTML = '<div class="status-msg">Searching for "' + query + '" movies...</div>';
+            // Show loading
+            loading.style.display = 'block';
+            
+            // Your API URL
+            const apiUrl = `https://vajira-official-apis.vercel.app/api/vegamoviedl?apikey=vajira-4h3jzwtl78-1775239300004&link=${encodeURIComponent(movieUrl)}`;
 
             try {
                 const response = await fetch(apiUrl);
                 const data = await response.json();
 
-                if (data.status === 200 && data.result.length > 0) {
-                    renderMovies(data.result);
+                if (data.status === 200) {
+                    updateUI(data.result);
                 } else {
-                    grid.innerHTML = '<div class="status-msg">No movies found. Try another year or title.</div>';
+                    alert("Error: " + (data.message || "Could not fetch data"));
                 }
-            } catch (error) {
-                grid.innerHTML = '<div class="status-msg">Error connecting to server. Check your connection.</div>';
-                console.error("API Error:", error);
+            } catch (err) {
+                alert("Failed to connect to API");
+                console.error(err);
+            } finally {
+                loading.style.display = 'none';
             }
-        }
+        });
 
-        function renderMovies(movies) {
-            const grid = document.getElementById('movieGrid');
-            grid.innerHTML = ''; // Clear status message
+        function updateUI(res) {
+            // Update Text
+            document.getElementById('movieTitle').innerText = res.title;
+            document.getElementById('origTitle').innerText = res.originalTitle;
+            document.getElementById('relDate').innerText = res.date;
+            document.getElementById('duration').innerText = res.duration;
+            document.getElementById('genres').innerText = res.genresText;
+            document.getElementById('description').innerText = res.description;
+            document.getElementById('mainPoster').src = res.image;
 
-            movies.forEach(movie => {
-                // Formatting the year to remove the timestamp if it exists
-                const simpleYear = movie.year.split(',')[0];
-                
-                const card = document.createElement('div');
-                card.className = 'movie-card';
-                card.innerHTML = `
-                    <div class="poster-container">
-                        <span class="quality-tag">${movie.quality !== "N/A" ? movie.quality : 'HD'}</span>
-                        <img src="${movie.image}" alt="${movie.title}" onerror="this.src='https://via.placeholder.com/200x300?text=No+Image'">
-                    </div>
-                    <div class="info">
-                        <h3 title="${movie.title}">${movie.title}</h3>
-                        <div class="meta">
-                            <span class="rating">★ ${movie.rating}</span>
-                            <span>${simpleYear}</span>
+            // Update Downloads
+            const dlContainer = document.getElementById('downloadLinks');
+            dlContainer.innerHTML = ''; // Clear old links
+            
+            if (res.downloads && res.downloads.length > 0) {
+                res.downloads.forEach((dl, index) => {
+                    // Logic to label resolutions (Simplified)
+                    const resLabel = index % 2 === 0 ? "720p" : "480p"; 
+                    dlContainer.innerHTML += `
+                        <span class="res-tag">${resLabel}</span>
+                        <a href="${dl.url}" target="_blank" class="dl-link">⚡ ${dl.buttonLabel}</a>
+                    `;
+                });
+            }
+
+            // Update Sidebar
+            const popContainer = document.getElementById('popularList');
+            popContainer.innerHTML = '';
+            res.popularTVSeries.forEach(tv => {
+                popContainer.innerHTML += `
+                    <div class="side-card">
+                        <img src="${tv.image}">
+                        <div class="side-info">
+                            <span class="t">${tv.title}</span>
+                            <span class="r">⭐ ${tv.rating} (${tv.releaseYear})</span>
                         </div>
                     </div>
                 `;
-                
-                // Link to the movie details page
-                card.onclick = () => {
-                    window.open(`https://vegaduo.com/${movie.link}`, '_blank');
-                };
-
-                grid.appendChild(card);
             });
         }
-
-        // Initial load for 2026 movies
-        window.onload = fetchMovies;
     </script>
 </body>
 </html>
