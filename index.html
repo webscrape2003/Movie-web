@@ -3,45 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VEGAMOVIES | Home</title>
+    <title>VEGAMOVIES | Vajira Official</title>
     <style>
         :root {
             --bg-body: #0a0a0a;
-            --bg-card: #1a1a1a;
+            --bg-card: #161616;
             --accent: #4CAF50;
-            --text: #ffffff;
+            --text-main: #ffffff;
+            --text-dim: #999;
         }
 
         body {
             background-color: var(--bg-body);
-            color: var(--text);
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
             margin: 0;
             padding: 0;
         }
 
-        /* Header Styling */
         header {
             background: #000;
-            padding: 25px 20px;
+            padding: 30px 20px;
             text-align: center;
             border-bottom: 3px solid var(--accent);
         }
 
-        .logo { font-size: 28px; font-weight: 800; letter-spacing: 2px; margin-bottom: 15px; }
+        .logo { font-size: 28px; font-weight: 800; letter-spacing: 2px; margin-bottom: 20px; }
         .logo span { color: var(--accent); }
 
-        /* Search Bar Styling */
-        .search-area {
-            max-width: 650px;
+        .search-box {
+            max-width: 600px;
             margin: 0 auto;
             display: flex;
-            background: #252525;
+            background: #222;
             padding: 5px;
             border-radius: 4px;
+            border: 1px solid #333;
         }
 
-        .search-area input {
+        .search-box input {
             flex: 1;
             background: transparent;
             border: none;
@@ -51,169 +51,150 @@
             outline: none;
         }
 
-        .search-area button {
+        .search-box button {
             background: var(--accent);
             border: none;
             color: white;
             padding: 0 25px;
             font-weight: bold;
-            cursor: pointer;
             border-radius: 3px;
+            cursor: pointer;
         }
 
-        /* Grid Layout */
-        .container { max-width: 1400px; margin: 30px auto; padding: 0 20px; }
+        .container { max-width: 1400px; margin: 40px auto; padding: 0 20px; }
         
-        .section-header {
-            font-size: 18px;
-            margin-bottom: 20px;
-            border-left: 4px solid var(--accent);
-            padding-left: 12px;
+        .section-title {
+            font-size: 20px;
+            margin-bottom: 25px;
+            border-left: 5px solid var(--accent);
+            padding-left: 15px;
             text-transform: uppercase;
         }
 
         #movie-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 25px;
         }
 
-        /* Movie Card Styling */
         .movie-card {
             background: var(--bg-card);
-            border-radius: 5px;
+            border-radius: 8px;
             overflow: hidden;
-            transition: 0.3s;
-            cursor: pointer;
-            position: relative;
+            transition: 0.3s ease;
             text-decoration: none;
             color: white;
+            display: block;
+            position: relative;
         }
 
-        .movie-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .movie-card:hover { transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0,0,0,0.6); }
 
-        .poster-box { position: relative; width: 100%; aspect-ratio: 2/3; }
-        .movie-img { width: 100%; height: 100%; object-fit: cover; }
+        .poster-wrapper { position: relative; width: 100%; aspect-ratio: 2/3; background: #222; }
+        .movie-poster { width: 100%; height: 100%; object-fit: cover; }
 
         .badge-quality {
             position: absolute;
-            top: 8px;
-            left: 8px;
+            top: 10px;
+            left: 10px;
             background: var(--accent);
-            font-size: 10px;
-            padding: 2px 6px;
+            color: white;
+            font-size: 11px;
+            padding: 3px 8px;
             font-weight: bold;
-            border-radius: 2px;
+            border-radius: 3px;
         }
 
-        .badge-rating {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: rgba(0,0,0,0.7);
-            color: #ffc107;
-            font-size: 10px;
-            padding: 2px 6px;
-            border: 1px solid #ffc107;
-            border-radius: 2px;
-        }
-
-        .movie-info { padding: 10px; }
-        .movie-name {
-            font-size: 13px;
+        .movie-info { padding: 15px; }
+        .movie-title {
+            font-size: 14px;
             font-weight: 600;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .movie-year { font-size: 11px; color: #999; }
+        .movie-meta { font-size: 12px; color: var(--text-dim); display: flex; justify-content: space-between; }
     </style>
 </head>
 <body>
 
 <header>
     <div class="logo">VEGA<span>MOVIES</span></div>
-    <div class="search-area">
-        <input type="text" id="queryInput" placeholder="Search movies, years, or titles...">
-        <button onclick="userSearch()">SEARCH</button>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search Movie or Year...">
+        <button onclick="handleSearch()">SEARCH</button>
     </div>
 </header>
 
 <div class="container">
-    <div class="section-header" id="listTitle">Latest Movies (2026)</div>
-    <div id="movie-grid">
-        </div>
+    <div class="section-title" id="displayLabel">Latest Movies (2026)</div>
+    <div id="movie-grid"></div>
 </div>
 
 <script>
     const API_KEY = "vajira-4h3jzwtl78-1775239300004";
-    const API_LINK = "https://vajira-official-apis.vercel.app/api/vegamovies";
+    const API_URL = "https://vajira-official-apis.vercel.app/api/vegamovies";
 
-    // CORE FUNCTION: Fetches and displays data
-    async function loadMovies(searchTerm, isInitial = false) {
+    // Main fetch function
+    async function fetchMovies(query, isHome = false) {
         const grid = document.getElementById('movie-grid');
-        const title = document.getElementById('listTitle');
+        const label = document.getElementById('displayLabel');
 
-        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px;">Loading...</div>';
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 50px;">Loading Movies...</div>';
         
-        if (!isInitial) {
-            title.innerText = `Search Results: ${searchTerm}`;
+        if (!isHome) {
+            label.innerText = `Search Results for: ${query}`;
         }
 
         try {
-            const res = await fetch(`${API_LINK}?apikey=${API_KEY}&text=${searchTerm}`);
-            const data = await res.json();
+            const response = await fetch(`${API_URL}?apikey=${API_KEY}&text=${query}`);
+            const data = await response.json();
 
             if (data.result && data.result.length > 0) {
                 grid.innerHTML = "";
-                data.result.forEach(item => {
-                    // Extract Year properly from "03-04-2026, 09:30"
-                    let cleanYear = item.year;
-                    if(item.year.includes('-')) {
-                        const parts = item.year.split(',')[0].split('-');
-                        cleanYear = parts[2] || parts[0];
-                    }
-
+                data.result.forEach(movie => {
                     const card = `
-                        <div class="movie-card" onclick="window.open('https://vegaduo.com/${item.link}', '_blank')">
-                            <div class="poster-box">
-                                <span class="badge-quality">${item.quality === 'N/A' ? 'HD' : item.quality}</span>
-                                <span class="badge-rating">★ ${item.rating}</span>
-                                <img src="${item.image}" alt="poster" class="movie-img" onerror="this.src='https://via.placeholder.com/200x300?text=No+Image'">
+                        <a href="${movie.link}" target="_blank" class="movie-card">
+                            <div class="poster-wrapper">
+                                <span class="badge-quality">${movie.quality}</span>
+                                <img src="${movie.poster}" alt="${movie.title}" class="movie-poster" onerror="this.src='https://via.placeholder.com/200x300?text=No+Poster'">
                             </div>
                             <div class="movie-info">
-                                <div class="movie-name">${item.title}</div>
-                                <div class="movie-year">Year: ${cleanYear}</div>
+                                <div class="movie-title">${movie.title}</div>
+                                <div class="movie-meta">
+                                    <span>Year: ${movie.year}</span>
+                                    <span style="color:var(--accent)">Download</span>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     `;
                     grid.innerHTML += card;
                 });
             } else {
-                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px;">No results found.</div>';
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 50px;">No movies found.</div>';
             }
-        } catch (err) {
-            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: red;">API Error.</div>';
+        } catch (error) {
+            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 50px; color: red;">Connection Error.</div>';
         }
     }
 
-    // Triggered by Search Button
-    function userSearch() {
-        const val = document.getElementById('queryInput').value;
-        if(val) {
-            loadMovies(val);
+    // Function for button click
+    function handleSearch() {
+        const query = document.getElementById('searchInput').value;
+        if (query.trim() !== "") {
+            fetchMovies(query);
         }
     }
 
-    // HOME PAGE LOAD: Always 2026
+    // HOME PAGE: Always load 2026 by default
     window.onload = () => {
-        loadMovies('2026', true);
+        fetchMovies('2026', true);
     };
 
-    // Support Enter Key
-    document.getElementById('queryInput').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') userSearch();
+    // Support for Enter key
+    document.getElementById('searchInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') handleSearch();
     });
 </script>
 
