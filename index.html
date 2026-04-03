@@ -3,275 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vegamovies - Download Hub</title>
+    <title>Vegamovies - Premium Movie Hub</title>
     <style>
-        /* VEGAMOVIES EXACT COLOR PALETTE */
         :root {
-            --bg-body: #1c1c1c;
-            --bg-content: #222222;
-            --header-gray: #333333;
+            --bg-dark: #0f0f0f;
+            --card-bg: #1a1a1a;
+            --accent-blue: #007bff;
             --text-gold: #f39c12;
-            --btn-blue: #007bff;
-            --btn-blue-hover: #0056b3;
-            --text-white: #ffffff;
-            --text-muted: #aaaaaa;
-            --res-label: #ff4d4d;
+            --btn-green: #2ecc71;
         }
 
         body {
-            background-color: var(--bg-body);
-            color: var(--text-white);
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: #eee;
+            font-family: 'Segoe UI', Arial, sans-serif;
             margin: 0; padding: 0;
         }
 
-        /* TOP NAVIGATION */
-        .header-nav {
-            background: #000;
-            padding: 12px 5%;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid #444;
-        }
-        .logo { font-size: 26px; font-weight: 800; letter-spacing: -1px; }
+        /* NAVBAR & SEARCH */
+        .nav { background: #000; padding: 15px 5%; border-bottom: 2px solid #333; display: flex; align-items: center; justify-content: space-between; }
+        .logo { font-size: 26px; font-weight: 900; color: #fff; text-decoration: none; }
         .logo span { color: var(--text-gold); }
-        .nav-links { margin-left: 40px; display: flex; gap: 20px; font-size: 14px; font-weight: bold; cursor: pointer; }
-        .nav-links div:hover { color: var(--text-gold); }
 
-        /* SEARCH INPUT AREA */
-        .search-bar-container {
-            background: #282828;
-            padding: 15px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-        #movieUrl {
-            width: 50%;
-            background: #111;
-            border: 1px solid #444;
-            color: #fff;
-            padding: 10px;
-            border-radius: 3px;
-        }
-        #fetchBtn {
-            background: #2ecc71;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 3px;
-        }
+        .search-area { background: #222; padding: 20px; display: flex; justify-content: center; gap: 10px; border-bottom: 1px solid #333; }
+        #movieUrl { width: 40%; padding: 12px; background: #000; border: 1px solid #444; color: #fff; border-radius: 4px; }
+        #btnFetch { padding: 12px 25px; background: var(--btn-green); border: none; color: white; font-weight: bold; cursor: pointer; border-radius: 4px; }
 
-        /* MAIN LAYOUT */
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 15px;
-            padding: 0 10px;
-        }
+        /* CONTENT LAYOUT */
+        .wrapper { max-width: 1250px; margin: 20px auto; display: grid; grid-template-columns: 1fr 320px; gap: 20px; padding: 0 15px; }
 
-        .main-content { background: var(--bg-content); border-radius: 2px; }
-        
-        .breadcrumb {
-            background: #1a1a1a;
-            padding: 10px 15px;
-            font-size: 12px;
-            color: var(--text-muted);
-            border-bottom: 1px solid #333;
-        }
+        .content-main { background: var(--card-bg); border-radius: 4px; border: 1px solid #2a2a2a; overflow: hidden; }
+        .breadcrumb { background: #111; padding: 10px 20px; font-size: 11px; color: #888; border-bottom: 1px solid #2a2a2a; }
 
-        .movie-header { padding: 15px; }
-        .movie-title { font-size: 20px; color: #00acee; margin: 0 0 15px 0; }
-
-        /* VIDEO PLAYER */
-        .video-box {
-            background: #000;
+        /* VIDEO PLAYER SECTION */
+        .player-container {
             width: 100%;
-            height: 400px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid #333;
-            margin-bottom: 20px;
-        }
-        .play-circle {
-            width: 60px; height: 60px;
-            background: #32CD32;
-            border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 24px; cursor: pointer;
-        }
-
-        /* INFO & CAST TABS */
-        .tabs { display: flex; background: #111; border-bottom: 2px solid #333; }
-        .tab { padding: 10px 25px; background: var(--btn-blue); font-size: 13px; font-weight: bold; }
-
-        .synopsis-area { padding: 20px; }
-        .synopsis-title { font-size: 18px; color: var(--text-gold); margin-bottom: 10px; }
-
-        /* DOWNLOAD AREA (EXACT STYLE) */
-        .download-box { text-align: center; padding: 20px 0; }
-        .res-text { color: var(--res-label); font-weight: bold; display: block; margin: 15px 0 5px; font-size: 18px; }
-        .download-link {
-            background: var(--btn-blue);
-            color: white;
-            padding: 14px 20px;
-            text-decoration: none;
-            font-weight: bold;
-            display: block;
-            width: 85%;
-            margin: 0 auto 10px auto;
-            border-radius: 4px;
-            font-size: 15px;
-            transition: 0.3s;
-        }
-        .download-link:hover { background: var(--btn-blue-hover); }
-
-        /* SIDEBAR STYLE */
-        .sidebar-heading {
-            font-size: 15px;
-            background: #111;
-            padding: 8px 12px;
-            border-left: 3px solid var(--btn-blue);
-            margin-bottom: 10px;
-        }
-        .sidebar-item {
-            display: flex;
-            background: #1a1a1a;
-            margin-bottom: 8px;
-            padding: 5px;
-            border: 1px solid #2a2a2a;
-        }
-        .sidebar-item img { width: 60px; height: 85px; object-fit: cover; }
-        .sidebar-info { padding: 5px 10px; }
-        .sidebar-info div { font-size: 12px; font-weight: bold; margin-bottom: 5px; }
-        .sidebar-info span { font-size: 11px; color: var(--text-muted); }
-
-        .genre-tag {
-            display: block;
-            padding: 6px 10px;
+            background: #000;
+            position: relative;
+            aspect-ratio: 16 / 9;
             border-bottom: 1px solid #333;
-            font-size: 12px;
-            color: #ccc;
         }
+        video { width: 100%; height: 100%; object-fit: contain; outline: none; }
+        
+        .player-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            display: flex; justify-content: center; align-items: center;
+            transition: 0.5s; z-index: 5;
+        }
+        .play-btn {
+            width: 70px; height: 70px; background: var(--btn-green);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-size: 30px; color: white; cursor: pointer; box-shadow: 0 0 20px rgba(46,204,113,0.4);
+        }
+
+        /* MOVIE META */
+        .movie-header { padding: 20px; }
+        .movie-title { font-size: 24px; color: #00acee; margin: 0 0 15px 0; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        
+        .meta-grid { display: flex; gap: 25px; margin-bottom: 30px; }
+        .poster-img { width: 210px; border: 3px solid #333; border-radius: 4px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .info-list p { margin: 8px 0; font-size: 14px; }
+        .info-list b { color: #888; width: 120px; display: inline-block; }
+
+        /* DOWNLOAD BUTTONS */
+        .dl-section { background: #111; padding: 30px; text-align: center; border-top: 1px solid #333; }
+        .dl-res-tag { color: #ff4d4d; font-weight: bold; font-size: 18px; display: block; margin: 25px 0 10px; }
+        .dl-btn {
+            display: block; width: 85%; margin: 0 auto 12px auto; background: var(--accent-blue);
+            color: white; padding: 15px; text-decoration: none; font-weight: bold;
+            border-radius: 5px; border-bottom: 4px solid #0056b3; transition: 0.2s;
+        }
+        .dl-btn:hover { background: #0069d9; transform: translateY(-2px); }
+
+        /* SIDEBAR */
+        .side-title { background: #000; padding: 12px; border-left: 4px solid var(--accent-blue); font-weight: bold; margin-bottom: 15px; font-size: 14px; }
+        .side-card { display: flex; background: #1a1a1a; margin-bottom: 10px; border: 1px solid #222; text-decoration: none; color: inherit; }
+        .side-card img { width: 70px; height: 95px; object-fit: cover; }
+        .side-info { padding: 8px 12px; }
+        .side-info .t { font-size: 13px; font-weight: bold; display: block; margin-bottom: 5px; }
+        .side-info .r { font-size: 11px; color: var(--text-gold); }
+
+        .genre-box { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+        .genre-link { background: #111; padding: 8px; font-size: 11px; border: 1px solid #222; text-decoration: none; color: #bbb; text-align: center; }
     </style>
 </head>
 <body>
 
-<header class="header-nav">
-    <div class="logo">VEGA<span>MOVIES</span></div>
-    <div class="nav-links">
-        <div>Movies</div>
-        <div>Bollywood</div>
-        <div>Hollywood</div>
-        <div>TV Series</div>
-    </div>
-</header>
-
-<div class="search-bar-container">
-    <input type="text" id="movieUrl" placeholder="Paste Vegaduo link here...">
-    <button id="fetchBtn" onclick="fetchMovie()">Fetch Details</button>
+<div class="nav">
+    <a href="#" class="logo">VEGA<span>MOVIES</span></a>
+    <div style="font-size: 12px;">Login | 2026 Edition</div>
 </div>
 
-<div class="container" id="contentWrapper" style="display: none;">
-    <div class="main-content">
-        <div class="breadcrumb" id="genresText"></div>
+<div class="search-area">
+    <input type="text" id="movieUrl" placeholder="Paste Vegaduo link here...">
+    <button id="btnFetch" onclick="fetchFullDetails()">FETCH MOVIE & PLAYER</button>
+</div>
+
+<div class="wrapper" id="mainLayout" style="display: none;">
+    <div class="content-main">
+        <div class="breadcrumb" id="breadPath"></div>
         
+        <div class="player-container">
+            <div id="playerOverlay" class="player-overlay">
+                <div class="play-btn" onclick="startPlayer()">▶</div>
+            </div>
+            <video id="movieVideo" controls poster="">
+                <source id="videoSrc" src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
         <div class="movie-header">
             <h1 class="movie-title" id="title"></h1>
-            <div class="tabs"><div class="tab">Info</div><div class="tab" style="background: #333;">Cast</div></div>
-        </div>
-
-        <div class="video-box">
-            <div class="play-circle">▶</div>
-        </div>
-
-        <div class="synopsis-area">
-            <div class="synopsis-title">Synopsis</div>
-            <p id="description" style="font-size: 14px; line-height: 1.5; color: #ddd;"></p>
-            
-            <div id="dlLinks" class="download-box">
+            <div class="meta-grid">
+                <img id="poster" class="poster-img" src="">
+                <div class="info-list">
+                    <p><b>Original Title:</b> <span id="origTitle"></span></p>
+                    <p><b>Release Date:</b> <span id="date"></span></p>
+                    <p><b>Duration:</b> <span id="dur"></span></p>
+                    <p><b>Country:</b> <span id="country"></span></p>
+                    <p><b>Genres:</b> <span id="genres"></span></p>
                 </div>
+            </div>
 
-            <div style="margin-top: 30px; border-top: 1px solid #444; padding-top: 20px;">
-                <p><strong>Original Title:</strong> <span id="origTitle"></span></p>
-                <p><strong>Release:</strong> <span id="date"></span> | <strong>Duration:</strong> <span id="duration"></span></p>
+            <div class="dl-section">
+                <h3 id="dlMainTitle" style="margin-bottom:20px;"></h3>
+                <div id="dlLinks"></div>
+            </div>
+
+            <div style="padding: 20px; border-top: 1px solid #333;">
+                <h3 style="color:var(--text-gold)">Synopsis / Plot</h3>
+                <p id="desc" style="color:#ccc; line-height:1.7; font-size:14px;"></p>
             </div>
         </div>
     </div>
 
     <div class="sidebar">
-        <div class="sidebar-heading">Popular Content</div>
+        <div class="side-title">POPULAR TV SERIES</div>
         <div id="popular"></div>
 
-        <div class="sidebar-heading" style="margin-top:20px">Genres</div>
-        <div id="genreList"></div>
+        <div class="side-title" style="margin-top:20px;">GENRE CLOUD</div>
+        <div class="genre-box" id="genreArea"></div>
     </div>
 </div>
 
 <script>
-async function fetchMovie() {
-    const link = document.getElementById('movieUrl').value;
-    if(!link) return alert("Please enter a link!");
-    
-    const api = `https://vajira-official-apis.vercel.app/api/vegamoviedl?apikey=vajira-4h3jzwtl78-1775239300004&link=${encodeURIComponent(link)}`;
+async function fetchFullDetails() {
+    const input = document.getElementById('movieUrl').value;
+    if(!input) return alert("Please enter a valid link!");
+
+    const api = `https://vajira-official-apis.vercel.app/api/vegamoviedl?apikey=vajira-4h3jzwtl78-1775239300004&link=${encodeURIComponent(input)}`;
 
     try {
-        const res = await fetch(api);
-        const data = await res.json();
-        const movie = data.result;
+        const response = await fetch(api);
+        const data = await response.json();
+        const m = data.result;
 
-        // Display Wrapper
-        document.getElementById('contentWrapper').style.display = 'grid';
+        document.getElementById('mainLayout').style.display = 'grid';
 
-        // Map Data
-        document.getElementById('title').innerText = movie.title;
-        document.getElementById('origTitle').innerText = movie.originalTitle;
-        document.getElementById('date').innerText = movie.date;
-        document.getElementById('duration').innerText = movie.duration;
-        document.getElementById('description').innerText = movie.description;
-        document.getElementById('genresText').innerText = movie.genresText.replace(/\//g, " » ");
+        // Set Player
+        const video = document.getElementById('movieVideo');
+        const overlay = document.getElementById('playerOverlay');
+        video.poster = m.image;
+        overlay.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('${m.image}')`;
+        overlay.style.display = 'flex';
+        
+        // Use first download link as preview if available
+        if(m.downloads && m.downloads.length > 0) {
+            document.getElementById('videoSrc').src = m.downloads[0].url;
+            video.load();
+        }
 
-        // Map Downloads
+        // Basic Info
+        document.getElementById('title').innerText = m.title;
+        document.getElementById('poster').src = m.image;
+        document.getElementById('origTitle').innerText = m.originalTitle;
+        document.getElementById('date').innerText = m.date;
+        document.getElementById('dur').innerText = m.duration;
+        document.getElementById('country').innerText = m.country;
+        document.getElementById('genres').innerText = m.genresText;
+        document.getElementById('desc').innerText = m.description;
+        document.getElementById('breadPath').innerText = m.genresText.replace(/\//g, " » ");
+        document.getElementById('dlMainTitle').innerText = m.downloadsTitle;
+
+        // Downloads
         const dlDiv = document.getElementById('dlLinks');
-        dlDiv.innerHTML = `<h3 style="color:#00acee">${movie.downloadsTitle || 'Download Links'}</h3>`;
-        movie.downloads.forEach((dl, i) => {
-            const resLabel = i % 2 === 0 ? "720p" : "480p";
-            dlDiv.innerHTML += `
-                <span class="res-text">${resLabel}</span>
-                <a href="${dl.url}" class="download-link" target="_blank">⚡ ${dl.buttonLabel}</a>
-            `;
+        dlDiv.innerHTML = '';
+        m.downloads.forEach((dl, i) => {
+            if(i % 3 === 0) {
+                const quality = ["480p SD Quality", "720p HD Quality", "1080p Full HD"][Math.floor(i/3)] || "Direct Downloads";
+                dlDiv.innerHTML += `<span class="dl-res-tag">${quality}</span>`;
+            }
+            dlDiv.innerHTML += `<a href="${dl.url}" target="_blank" class="dl-btn">⚡ ${dl.buttonLabel}</a>`;
         });
 
-        // Map Popular (Sidebar)
+        // Sidebar Popular
         const popDiv = document.getElementById('popular');
         popDiv.innerHTML = '';
-        movie.popularTVSeries.forEach(item => {
+        m.popularTVSeries.forEach(tv => {
             popDiv.innerHTML += `
-                <div class="sidebar-item">
-                    <img src="${item.image}">
-                    <div class="sidebar-info">
-                        <div>${item.title}</div>
-                        <span>⭐ ${item.rating} (${item.releaseYear})</span>
+                <a href="${tv.url}" class="side-card">
+                    <img src="${tv.image}">
+                    <div class="side-info">
+                        <span class="t">${tv.title}</span>
+                        <span class="r">⭐ ${tv.rating} (${tv.releaseYear})</span>
                     </div>
-                </div>
-            `;
+                </a>`;
         });
 
-        // Map Genres
-        const genDiv = document.getElementById('genreList');
-        genDiv.innerHTML = '';
-        movie.genres.slice(0, 10).forEach(g => {
-            genDiv.innerHTML += `<div class="genre-tag">○ ${g.genreName} (${g.totalItems})</div>`;
+        // Genres
+        const genArea = document.getElementById('genreArea');
+        genArea.innerHTML = '';
+        m.genres.slice(0, 12).forEach(g => {
+            genArea.innerHTML += `<a href="${g.url}" class="genre-link">${g.genreName} (${g.totalItems})</a>`;
         });
 
     } catch (e) {
-        alert("Error fetching data. Check your API key or link.");
+        alert("API Error! Please check your link.");
     }
+}
+
+function startPlayer() {
+    const video = document.getElementById('movieVideo');
+    const overlay = document.getElementById('playerOverlay');
+    overlay.style.opacity = '0';
+    setTimeout(() => overlay.style.display = 'none', 500);
+    video.play();
 }
 </script>
 
