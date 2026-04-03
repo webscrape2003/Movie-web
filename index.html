@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VEGAMOVIES | Vajira Official</title>
+    <title>VEGAMOVIES | 2026 Official</title>
     <style>
         :root {
             --bg-body: #0a0a0a;
@@ -16,12 +16,11 @@
         body {
             background-color: var(--bg-body);
             color: var(--text);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
 
-        /* Header & Search Area */
         header {
             background: #000;
             padding: 30px 20px;
@@ -29,7 +28,7 @@
             border-bottom: 3px solid var(--accent);
         }
 
-        .logo { font-size: 32px; font-weight: bold; margin-bottom: 20px; letter-spacing: 1px; }
+        .logo { font-size: 32px; font-weight: bold; margin-bottom: 20px; text-transform: uppercase; }
         .logo span { color: var(--accent); }
 
         .search-bar {
@@ -61,18 +60,14 @@
             cursor: pointer;
         }
 
-        /* Container */
         .container { max-width: 1400px; margin: 40px auto; padding: 0 20px; }
-        
         .section-title {
             font-size: 20px;
             margin-bottom: 25px;
             border-left: 4px solid var(--accent);
             padding-left: 15px;
-            text-transform: uppercase;
         }
 
-        /* Movie Grid */
         #movie-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -86,21 +81,15 @@
             position: relative;
             transition: 0.3s;
             cursor: pointer;
+            text-decoration: none;
+            color: white;
+            display: block;
         }
 
-        .movie-card:hover { transform: translateY(-8px); }
+        .movie-card:hover { transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
 
-        .poster-container {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 2/3;
-        }
-
-        .movie-poster {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .poster-container { position: relative; width: 100%; aspect-ratio: 2/3; }
+        .movie-poster { width: 100%; height: 100%; object-fit: cover; }
 
         .quality-tag {
             position: absolute;
@@ -134,12 +123,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .meta {
-            font-size: 12px;
-            color: var(--sub-text);
-            display: flex;
-            justify-content: space-between;
-        }
+        .meta { font-size: 12px; color: var(--sub-text); }
     </style>
 </head>
 <body>
@@ -147,15 +131,14 @@
 <header>
     <div class="logo">VEGA<span>MOVIES</span></div>
     <div class="search-bar">
-        <input type="text" id="movieSearch" placeholder="Search movies or year...">
+        <input type="text" id="movieSearch" placeholder="Search 2026 or movie name...">
         <button onclick="performSearch()">SEARCH</button>
     </div>
 </header>
 
 <div class="container">
-    <div class="section-title" id="gridLabel">Featured Movies</div>
-    <div id="movie-grid">
-        </div>
+    <div class="section-title" id="gridLabel">Loading...</div>
+    <div id="movie-grid"></div>
 </div>
 
 <script>
@@ -167,31 +150,39 @@
         const grid = document.getElementById('movie-grid');
         const label = document.getElementById('gridLabel');
 
-        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 50px;">Loading Content...</div>';
-        label.innerText = `Results for: ${query}`;
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 50px;">Fetching Latest Content...</div>';
+        label.innerText = `Showing results for: ${query}`;
 
         try {
+            // We fetch with the search text. 
             const response = await fetch(`${API_URL}?apikey=${API_KEY}&text=${query}`);
             const data = await response.json();
 
             if (data.result && data.result.length > 0) {
                 grid.innerHTML = "";
+                
                 data.result.forEach(movie => {
-                    // Check if quality is "N/A", if so display "FEATURED"
-                    const displayQuality = movie.quality === "N/A" ? "FEATURED" : movie.quality;
+                    // Logic to clean up the Year display (handles both "2025" and "03-04-2026, 09:30")
+                    let displayYear = movie.year;
+                    if(movie.year.includes('-')) {
+                        // Extracts the year from the date string "03-04-2026"
+                        const dateParts = movie.year.split(',')[0].split('-');
+                        displayYear = dateParts[2] || dateParts[0]; 
+                    }
+
+                    const displayQuality = (movie.quality === "N/A" || !movie.quality) ? "FEATURED" : movie.quality;
                     
                     const card = `
                         <div class="movie-card" onclick="window.open('https://vegaduo.com/${movie.link}', '_blank')">
                             <div class="poster-container">
                                 <span class="quality-tag">${displayQuality}</span>
-                                <span class="rating-tag">★ ${movie.rating}</span>
+                                <span class="rating-tag">★ ${movie.rating || '0'}</span>
                                 <img src="${movie.image}" alt="${movie.title}" class="movie-poster" onerror="this.src='https://via.placeholder.com/200x300?text=No+Poster'">
                             </div>
                             <div class="info">
                                 <div class="title">${movie.title}</div>
                                 <div class="meta">
-                                    <span>${movie.year.split(',')[0]}</span>
-                                    <span style="color:var(--accent)">Download</span>
+                                    <span>Year: ${displayYear}</span>
                                 </div>
                             </div>
                         </div>
@@ -199,17 +190,20 @@
                     grid.innerHTML += card;
                 });
             } else {
-                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 50px;">No movies found.</div>';
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 50px;">No movies found for this search.</div>';
             }
         } catch (error) {
             grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 50px; color: red;">API Connection Error.</div>';
         }
     }
 
-    // Default Load
-    window.onload = performSearch;
+    // Default Load on Start
+    window.onload = () => {
+        document.getElementById('movieSearch').value = "2026";
+        performSearch();
+    };
 
-    // Enter Key Search
+    // Enter Key Support
     document.getElementById('movieSearch').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') performSearch();
     });
