@@ -3,59 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MovieHub - Vega Style</title>
+    <title>Vajira Movie Box - 2026 Edition</title>
     <style>
-        /* CSS STYLES */
+        /* VEGAMOVIES STYLE CSS */
         :root {
-            --bg-color: #1a1a1a;
-            --card-bg: #262626;
-            --accent-color: #4CAF50; /* Green badges */
-            --text-main: #ffffff;
-            --text-dim: #b3b3b3;
+            --bg-dark: #121212;
+            --card-bg: #1e1e1e;
+            --accent-green: #4CAF50;
+            --text-white: #ffffff;
+            --text-grey: #b0b0b0;
+            --search-bg: #2a2a2a;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
         }
 
+        /* Navbar & Header */
         header {
+            background: #000;
+            padding: 20px 0;
+            border-bottom: 2px solid var(--accent-green);
             text-align: center;
-            margin-bottom: 40px;
         }
 
-        .search-container {
-            max-width: 600px;
-            margin: 20px auto;
+        .logo { font-size: 28px; font-weight: 800; color: var(--text-white); text-transform: uppercase; letter-spacing: 2px; }
+        .logo span { color: var(--accent-green); }
+
+        /* Search Section - Same as Image */
+        .hero-search {
+            background: #181818;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .search-box {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
             display: flex;
-            gap: 10px;
         }
 
-        input[type="text"] {
-            flex-grow: 1;
-            padding: 12px;
-            border-radius: 4px;
+        .search-box input {
+            width: 100%;
+            padding: 15px 25px;
+            background: var(--search-bg);
             border: 1px solid #444;
-            background: #333;
+            border-radius: 4px 0 0 4px;
             color: white;
             font-size: 16px;
         }
 
-        button {
-            padding: 12px 25px;
-            background-color: var(--accent-color);
+        .search-box button {
+            background: var(--accent-green);
             border: none;
+            padding: 0 30px;
             color: white;
-            border-radius: 4px;
-            cursor: pointer;
             font-weight: bold;
+            cursor: pointer;
+            border-radius: 0 4px 4px 0;
+            transition: 0.3s;
         }
 
-        button:hover {
-            background-color: #45a049;
+        .search-box button:hover { background: #3e8e41; }
+
+        /* Section Title */
+        .container { max-width: 1300px; margin: 20px auto; padding: 0 20px; }
+        .section-header {
+            border-left: 4px solid var(--accent-green);
+            padding-left: 15px;
+            margin: 30px 0;
+            font-size: 20px;
+            font-weight: bold;
         }
 
         /* Movie Grid */
@@ -63,23 +87,18 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
         }
 
         .movie-card {
             background: var(--card-bg);
-            border-radius: 8px;
+            border-radius: 5px;
             overflow: hidden;
-            transition: transform 0.3s ease;
             position: relative;
-            border-bottom: 3px solid transparent;
+            transition: transform 0.3s ease;
+            cursor: pointer;
         }
 
-        .movie-card:hover {
-            transform: translateY(-5px);
-            border-bottom: 3px solid var(--accent-color);
-        }
+        .movie-card:hover { transform: scale(1.03); }
 
         .movie-poster {
             width: 100%;
@@ -88,101 +107,111 @@
             display: block;
         }
 
-        .quality-badge {
+        .badge {
             position: absolute;
             top: 10px;
             left: 10px;
-            background: var(--accent-color);
-            padding: 2px 8px;
-            font-size: 12px;
+            background: var(--accent-green);
+            font-size: 11px;
+            padding: 3px 8px;
             border-radius: 3px;
             font-weight: bold;
+            text-transform: uppercase;
         }
 
-        .movie-info {
-            padding: 12px;
-        }
-
+        .movie-details { padding: 10px; }
         .movie-title {
             font-size: 14px;
-            font-weight: 600;
-            margin: 0 0 5px 0;
+            margin: 5px 0;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            font-weight: 600;
         }
+        .movie-meta { font-size: 12px; color: var(--text-grey); }
 
-        .movie-year {
-            font-size: 12px;
-            color: var(--text-dim);
-        }
-
-        .loading { text-align: center; font-size: 20px; }
+        .loading-text { text-align: center; padding: 50px; font-style: italic; color: var(--accent-green); }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>VEGAMOVIES CLONE</h1>
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Search movies (e.g. 2026)...">
-        <button onclick="searchMovies()">Search</button>
-    </div>
+    <div class="logo">VEGA<span>MOVIES</span></div>
 </header>
 
-<div id="movie-grid">
+<div class="hero-search">
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search Movie Name (e.g. Harry Potter)...">
+        <button onclick="handleSearch()">SEARCH</button>
     </div>
+</div>
+
+<div class="container">
+    <div class="section-header" id="dynamic-title">Latest Movies (2026)</div>
+    <div id="movie-grid">
+        </div>
+</div>
 
 <script>
-    const apiKey = "vajira-4h3jzwtl78-1775239300004";
+    const API_BASE = "https://vajira-official-apis.vercel.app/api/vegamovies";
+    const API_KEY = "vajira-4h3jzwtl78-1775239300004";
     const grid = document.getElementById('movie-grid');
+    const title = document.getElementById('dynamic-title');
 
-    async function searchMovies() {
-        const query = document.getElementById('searchInput').value;
-        if (!query) return;
-
-        grid.innerHTML = '<div class="loading">Searching...</div>';
-
+    // 1. Function to Fetch Data
+    async function fetchMovies(query) {
+        grid.innerHTML = '<div class="loading-text">Fetching movies... Please wait...</div>';
+        
         try {
-            const response = await fetch(`https://vajira-official-apis.vercel.app/api/vegamovies?apikey=${apiKey}&text=${query}`);
+            const response = await fetch(`${API_BASE}?apikey=${API_KEY}&text=${query}`);
             const data = await response.json();
 
-            if (data.status === 200 && data.result) {
-                displayMovies(data.result);
+            if (data.status === 200 && data.result && data.result.length > 0) {
+                renderMovies(data.result);
             } else {
-                grid.innerHTML = '<p>No movies found.</p>';
+                grid.innerHTML = '<div class="loading-text">No results found for "' + query + '".</div>';
             }
         } catch (error) {
-            console.error("Error fetching data:", error);
-            grid.innerHTML = '<p>Error loading movies. Please try again later.</p>';
+            grid.innerHTML = '<div class="loading-text">Error connecting to API.</div>';
         }
     }
 
-    function displayMovies(movies) {
-        grid.innerHTML = ''; // Clear previous results
-
+    // 2. Function to Render HTML Cards
+    function renderMovies(movies) {
+        grid.innerHTML = '';
         movies.forEach(movie => {
-            const card = document.createElement('div');
-            card.className = 'movie-card';
-
-            card.innerHTML = `
-                <span class="quality-badge">${movie.quality}</span>
-                <img class="movie-poster" src="${movie.poster}" alt="${movie.title}" onerror="this.src='https://via.placeholder.com/200x300?text=No+Poster'">
-                <div class="movie-info">
-                    <h3 class="movie-title">${movie.title}</h3>
-                    <div class="movie-year">${movie.year}</div>
+            const card = `
+                <div class="movie-card" onclick="window.open('${movie.link}', '_blank')">
+                    <span class="badge">${movie.quality}</span>
+                    <img class="movie-poster" src="${movie.poster}" alt="${movie.title}" onerror="this.src='https://via.placeholder.com/200x300?text=No+Poster'">
+                    <div class="movie-details">
+                        <div class="movie-title">${movie.title}</div>
+                        <div class="movie-meta">${movie.year} • ${movie.quality}</div>
+                    </div>
                 </div>
-                <a href="${movie.link}" target="_blank" style="position:absolute; top:0; left:0; width:100%; height:100%;"></a>
             `;
-            grid.innerHTML += card.outerHTML;
+            grid.innerHTML += card;
         });
     }
 
-    // Load 2026 movies by default on page load
+    // 3. Search Logic
+    function handleSearch() {
+        const query = document.getElementById('searchInput').value;
+        if (query.trim() !== "") {
+            title.innerText = `Search Results for: ${query}`;
+            fetchMovies(query);
+        }
+    }
+
+    // 4. Default View (2026) on page load
     window.onload = () => {
-        document.getElementById('searchInput').value = '2026';
-        searchMovies();
+        fetchMovies('2026');
     };
+
+    // Allow search by pressing "Enter"
+    document.getElementById('searchInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') handleSearch();
+    });
 </script>
 
 </body>
