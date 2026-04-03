@@ -3,200 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VEGAMOVIES | Vajira Official</title>
+    <title>MovieHub - Latest Movies & TV Series</title>
     <style>
+        /* CSS Reset & Variables */
         :root {
-            --bg-body: #0a0a0a;
-            --bg-card: #161616;
-            --accent: #4CAF50;
+            --bg-color: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --accent-color: #2ecc71; /* Green labels */
             --text-main: #ffffff;
-            --text-dim: #999;
+            --text-dim: #bbbbbb;
+            --header-bg: #111111;
         }
 
         body {
-            background-color: var(--bg-body);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
             color: var(--text-main);
-            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
             margin: 0;
             padding: 0;
         }
 
+        /* Header Styling */
         header {
-            background: #000;
-            padding: 30px 20px;
-            text-align: center;
-            border-bottom: 3px solid var(--accent);
-        }
-
-        .logo { font-size: 28px; font-weight: 800; letter-spacing: 2px; margin-bottom: 20px; }
-        .logo span { color: var(--accent); }
-
-        .search-box {
-            max-width: 600px;
-            margin: 0 auto;
+            background-color: var(--header-bg);
+            padding: 15px 5%;
             display: flex;
-            background: #222;
-            padding: 5px;
-            border-radius: 4px;
-            border: 1px solid #333;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--accent-color);
         }
 
-        .search-box input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: white;
-            padding: 12px;
-            font-size: 16px;
-            outline: none;
-        }
-
-        .search-box button {
-            background: var(--accent);
-            border: none;
-            color: white;
-            padding: 0 25px;
+        .logo {
+            font-size: 24px;
             font-weight: bold;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-
-        .container { max-width: 1400px; margin: 40px auto; padding: 0 20px; }
-        
-        .section-title {
-            font-size: 20px;
-            margin-bottom: 25px;
-            border-left: 5px solid var(--accent);
-            padding-left: 15px;
+            color: var(--accent-color);
             text-transform: uppercase;
         }
 
+        /* Container */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+
+        h2 {
+            border-left: 4px solid var(--accent-color);
+            padding-left: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Movie Grid */
         #movie-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
         }
 
+        /* Movie Card */
         .movie-card {
-            background: var(--bg-card);
-            border-radius: 8px;
+            background: var(--card-bg);
+            border-radius: 5px;
             overflow: hidden;
-            transition: 0.3s ease;
-            text-decoration: none;
-            color: white;
-            display: block;
             position: relative;
+            transition: transform 0.3s ease;
+            cursor: pointer;
         }
 
-        .movie-card:hover { transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0,0,0,0.6); }
+        .movie-card:hover {
+            transform: translateY(-5px);
+        }
 
-        .poster-wrapper { position: relative; width: 100%; aspect-ratio: 2/3; background: #222; }
-        .movie-poster { width: 100%; height: 100%; object-fit: cover; }
+        .movie-card img {
+            width: 100%;
+            height: 270px;
+            object-fit: cover;
+            display: block;
+        }
 
-        .badge-quality {
+        /* Badge/Label style */
+        .badge {
             position: absolute;
             top: 10px;
             left: 10px;
-            background: var(--accent);
-            color: white;
+            background: var(--accent-color);
+            color: black;
             font-size: 11px;
-            padding: 3px 8px;
             font-weight: bold;
+            padding: 2px 8px;
             border-radius: 3px;
+            text-transform: uppercase;
         }
 
-        .movie-info { padding: 15px; }
+        .movie-info {
+            padding: 10px;
+            text-align: center;
+        }
+
         .movie-title {
             font-size: 14px;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .movie-meta { font-size: 12px; color: var(--text-dim); display: flex; justify-content: space-between; }
+
+        .movie-meta {
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+
+        /* Loading Spinner */
+        #loader {
+            text-align: center;
+            padding: 50px;
+            font-size: 20px;
+        }
+
+        @media (max-width: 600px) {
+            #movie-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="logo">VEGA<span>MOVIES</span></div>
-    <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Search Movie or Year...">
-        <button onclick="handleSearch()">SEARCH</button>
+    <header>
+        <div class="logo">VEGA<span>CLONE</span></div>
+    </header>
+
+    <div class="container">
+        <h2>Featured Movies</h2>
+        <div id="loader">Loading movies...</div>
+        <div id="movie-grid"></div>
     </div>
-</header>
 
-<div class="container">
-    <div class="section-title" id="displayLabel">Latest Movies (2026)</div>
-    <div id="movie-grid"></div>
-</div>
+    <script>
+        // API URL from your request
+        const apiURL = "https://vajira-official-apis.vercel.app/api/vegamovies?apikey=vajira-4h3jzwtl78-1775239300004&text=2026";
 
-<script>
-    const API_KEY = "vajira-4h3jzwtl78-1775239300004";
-    const API_URL = "https://vajira-official-apis.vercel.app/api/vegamovies";
-
-    // Main fetch function
-    async function fetchMovies(query, isHome = false) {
-        const grid = document.getElementById('movie-grid');
-        const label = document.getElementById('displayLabel');
-
-        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 50px;">Loading Movies...</div>';
-        
-        if (!isHome) {
-            label.innerText = `Search Results for: ${query}`;
-        }
-
-        try {
-            const response = await fetch(`${API_URL}?apikey=${API_KEY}&text=${query}`);
-            const data = await response.json();
-
-            if (data.result && data.result.length > 0) {
-                grid.innerHTML = "";
-                data.result.forEach(movie => {
-                    const card = `
-                        <a href="${movie.link}" target="_blank" class="movie-card">
-                            <div class="poster-wrapper">
-                                <span class="badge-quality">${movie.quality}</span>
-                                <img src="${movie.poster}" alt="${movie.title}" class="movie-poster" onerror="this.src='https://via.placeholder.com/200x300?text=No+Poster'">
-                            </div>
-                            <div class="movie-info">
-                                <div class="movie-title">${movie.title}</div>
-                                <div class="movie-meta">
-                                    <span>Year: ${movie.year}</span>
-                                    <span style="color:var(--accent)">Download</span>
-                                </div>
-                            </div>
-                        </a>
-                    `;
-                    grid.innerHTML += card;
-                });
-            } else {
-                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 50px;">No movies found.</div>';
+        async function fetchMovies() {
+            try {
+                const response = await fetch(apiURL);
+                const data = await response.json();
+                
+                if (data.status === 200) {
+                    displayMovies(data.result);
+                } else {
+                    document.getElementById('loader').innerText = "Failed to load movies.";
+                }
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                document.getElementById('loader').innerText = "Error connecting to API.";
             }
-        } catch (error) {
-            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 50px; color: red;">Connection Error.</div>';
         }
-    }
 
-    // Function for button click
-    function handleSearch() {
-        const query = document.getElementById('searchInput').value;
-        if (query.trim() !== "") {
-            fetchMovies(query);
+        function displayMovies(movies) {
+            const grid = document.getElementById('movie-grid');
+            const loader = document.getElementById('loader');
+            
+            // Hide loader
+            loader.style.display = 'none';
+
+            movies.forEach(movie => {
+                // Create card element
+                const card = document.createElement('div');
+                card.className = 'movie-card';
+
+                // We handle the year display (cleaning up the date string if necessary)
+                const releaseYear = movie.year.split('-').length > 1 ? movie.year.split('-')[2].substring(0,4) : movie.year;
+
+                card.innerHTML = `
+                    <span class="badge">${movie.quality !== "N/A" ? movie.quality : 'Featured'}</span>
+                    <img src="${movie.image}" alt="${movie.title}" onerror="this.src='https://via.placeholder.com/180x270?text=No+Image'">
+                    <div class="movie-info">
+                        <div class="movie-title">${movie.title}</div>
+                        <div class="movie-meta">${releaseYear} • ⭐ ${movie.rating}</div>
+                    </div>
+                `;
+
+                // Link to movie page (using the link from API)
+                card.onclick = () => window.open(`https://vegaduo.com/${movie.link}`, '_blank');
+
+                grid.appendChild(card);
+            });
         }
-    }
 
-    // HOME PAGE: Always load 2026 by default
-    window.onload = () => {
-        fetchMovies('2026', true);
-    };
-
-    // Support for Enter key
-    document.getElementById('searchInput').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') handleSearch();
-    });
-</script>
-
+        // Run the fetch on load
+        fetchMovies();
+    </script>
 </body>
 </html>
