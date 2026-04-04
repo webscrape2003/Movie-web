@@ -3,193 +3,207 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Space Wars: Quest for the Deepstar (2023) - Movie Details</title>
+<title>Movie Details - Vegamovies</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --primary:#0d6efd;
-  --secondary:#6c757d;
   --bg:#0f0f0f;
   --card:#1a1a1a;
   --text:#fff;
+  --primary:#0d6efd;
   --accent:#ffc107;
+  --dim:#6c757d;
 }
 body {
-  margin:0;
-  font-family: 'Roboto', sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Roboto',sans-serif;
+  margin:0;padding:0;
 }
 a {text-decoration:none;color:var(--primary);}
-.container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 20px;
-}
-.header {
-  text-align:center;
-  margin-bottom: 30px;
-}
-.header h1 {
-  font-size: 2rem;
-  margin-bottom: 5px;
-}
-.header p {color:var(--secondary);}
-.main-grid {
-  display:grid;
-  grid-template-columns: 2fr 1fr;
-  gap:20px;
-}
-.movie-card {
-  background: var(--card);
-  border-radius: 10px;
-  overflow:hidden;
-  padding:20px;
-}
-.movie-card img {
-  width:100%;
-  border-radius:10px;
-  margin-bottom:15px;
-}
-.movie-info p {
-  margin:5px 0;
-}
-.genre-list, .download-list, .similar-list, .popular-list {
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:10px;
-}
+.container {max-width:1200px;margin:auto;padding:20px;}
+.header {text-align:center;margin:20px 0;}
+.header h1 {font-size:2rem;margin:0;}
+.header p {color:var(--dim);font-size:0.9rem;}
+.main-grid {display:grid;grid-template-columns:2fr 1fr;gap:20px;}
+.section-title {font-weight:700;margin:20px 0 10px;border-bottom:1px solid var(--dim);padding-bottom:5px;font-size:1.2rem;}
+.video-box {position:relative;width:100%;padding-top:56.25%;background:#000;border-radius:10px;overflow:hidden;}
+.video-box video {position:absolute;top:0;left:0;width:100%;height:100%;}
+.movie-card {background:var(--card);border-radius:10px;padding:15px;}
+.movie-card img {width:100%;border-radius:10px;margin-bottom:15px;}
+.meta-info p {margin:6px 0;font-size:0.95rem;}
 .genre-list a, .download-list a {
-  background: var(--primary);
-  padding:8px 12px;
-  border-radius:5px;
-  color:#fff;
-  font-size:0.9rem;
+  background:var(--primary);padding:8px 10px;border-radius:5px;font-size:0.85rem;color:#fff;margin:4px;
 }
-.download-list a{background:var(--accent);color:#000;}
+.download-list a {background:var(--accent);color:#000;}
+.similar-list, .popular-list {
+  display:flex;flex-wrap:wrap;gap:10px;
+}
 .similar-card, .popular-card {
-  background:var(--card);
-  width:150px;
-  border-radius:8px;
-  overflow:hidden;
-  cursor:pointer;
-  transition:0.3s;
+  background:var(--card);width:140px;border-radius:8px;overflow:hidden;cursor:pointer;transition:0.3s;
 }
 .similar-card:hover, .popular-card:hover {transform:scale(1.05);}
-.similar-card img, .popular-card img {width:100%; height:200px; object-fit:cover;}
-.similar-card div, .popular-card div {padding:5px; font-size:0.85rem;}
-.video-box {
-  position:relative;
-  width:100%;
-  padding-top:56.25%;
-  background:#000;
-  margin-bottom:20px;
-  border-radius:10px;
-  overflow:hidden;
-}
-.video-box video {
-  position:absolute;
-  top:0; left:0; width:100%; height:100%;
-}
-.section-title {
-  font-weight:700;
-  margin-top:20px;
-  margin-bottom:10px;
-  font-size:1.2rem;
-  border-bottom:1px solid var(--secondary);
-  padding-bottom:5px;
-}
-@media(max-width:900px){
+.similar-card img, .popular-card img {width:100%;height:200px;object-fit:cover;}
+.similar-card div, .popular-card div {padding:6px;font-size:0.85rem;color:#fff;}
+@media(max-width:900px) {
   .main-grid {grid-template-columns:1fr;}
-  .similar-card, .popular-card{width:120px;}
+  .similar-card, .popular-card {width:120px;}
 }
 </style>
 </head>
+
 <body>
 
 <div class="container">
 
-  <!-- HEADER -->
   <div class="header">
-    <h1>Space Wars: Quest for the Deepstar (2023)</h1>
-    <p>Original Title: Space Wars: Quest for the Deepstar | 90 Min | United States | Action / Adventure / Sci-Fi</p>
+    <h1 id="title">Loading...</h1>
+    <p id="subinfo"></p>
   </div>
 
   <div class="main-grid">
 
-    <!-- LEFT: MOVIE DETAILS -->
+    <!-- LEFT SIDE -->
     <div>
+
+      <!-- VIDEO -->
       <div class="video-box">
-        <video controls poster="https://vegaduo.com/uploads/posts/2023-10/986210_poster_1696996257.jpg">
-          <source src="https://vegaduo.com/engine/go.php?url=PGEgaHJlZj0iaHR0cHM6Ly9kb3dubG9hZC5iYnVwbG9hZC50by9kb3dubG9hZD92PUc1QUpTM1lIIiB0YXJnZXQ9Il9ibGFuayIgcmVsPSJub29wZW5lciBleHRlcm5hbCBub3JlZmVycmVyIj48YSBocmVmPSJodHRwczovL2Rvd25sb2FkLmJidXBsb2FkLnRvL2Rvd25sb2FkP3Y9RzVBSlMzWUg8L2E%2BPC9hPg%3D%3D" type="video/mp4">
+        <video controls id="moviePlayer">
+          <source id="videoSrc">
         </video>
       </div>
 
+      <!-- INFO BOX -->
       <div class="movie-card">
-        <img src="https://vegaduo.com/uploads/posts/2023-10/986210_poster_1696996257.jpg" alt="Movie Poster">
-        <div class="movie-info">
-          <p><strong>Release Date:</strong> Oct 24, 2023</p>
-          <p><strong>Country:</strong> United States</p>
-          <p><strong>Duration:</strong> 90 Min</p>
+        <img id="poster" src="" alt="Poster">
+
+        <div class="meta-info">
+          <p><strong>Original Title:</strong> <span id="origTitle"></span></p>
+          <p><strong>Release:</strong> <span id="releaseDate"></span></p>
+          <p><strong>Country:</strong> <span id="country"></span></p>
+          <p><strong>Duration:</strong> <span id="duration"></span></p>
           <p><strong>Genres:</strong></p>
-          <div class="genre-list">
-            <a href="https://vegaduo.com/action/">Action</a>
-            <a href="https://vegaduo.com/adventure/">Adventure</a>
-            <a href="https://vegaduo.com/sci-fi/">Sci-Fi</a>
-          </div>
+          <div class="genre-list" id="genres"></div>
           <p><strong>Description:</strong></p>
-          <p>Space Wars: Quest for the Deepstar (2023)  Watch online Movies Free Download</p>
+          <p id="description"></p>
 
           <p class="section-title">Download Links</p>
-          <div class="download-list">
-            <a href="/engine/go.php?url=PGEgaHJlZj0iaHR0cHM6Ly9kb3dubG9hZC5iYnVwbG9hZC50by9kb3dubG9hZD92PUc1QUpTM1lIIiB0YXJnZXQ9Il9ibGFuayIgcmVsPSJub29wZW5lciBleHRlcm5hbCBub3JlZmVycmVyIj48YSBocmVmPSJodHRwczovL2Rvd25sb2FkLmJidXBsb2FkLnRvL2Rvd25sb2FkP3Y9RzVBSlMzWUg8L2E%2BPC9hPg%3D%3D" target="_blank">Download Link 1</a>
-            <a href="/engine/go.php?url=PGEgaHJlZj0iaHR0cHM6Ly9kb3dubG9hZC5iYnVwbG9hZC50by9kb3dubG9hZD92PUQwVUZSTEpJIiB0YXJnZXQ9Il9ibGFuayIgcmVsPSJub29wZW5lciBleHRlcm5hbCBub3JlZmVycmVyIj48YSBocmVmPSJodHRwczovL2Rvd25sb2FkLmJidXBsb2FkLnRvL2Rvd25sb2FkP3Y9RDBVRlJMSkk8L2E%2BPC9hPg%3D%3D" target="_blank">Download Link 2</a>
-            <a href="/engine/go.php?url=PGEgaHJlZj0iaHR0cHM6Ly9kb3dubG9hZC5iYnVwbG9hZC50by9kb3dubG9hZD92PUozOTg2V1Y3IiB0YXJnZXQ9Il9ibGFuayIgcmVsPSJub29wZW5lciBleHRlcm5hbCBub3JlZmVycmVyIj48YSBocmVmPSJodHRwczovL2Rvd25sb2FkLmJidXBsb2FkLnRvL2Rvd25sb2FkP3Y9SjM5ODZXVjc8L2E%2B" target="_blank">Download Link 3</a>
-          </div>
+          <div class="download-list" id="downloads"></div>
         </div>
       </div>
 
-      <!-- Similar Titles -->
       <p class="section-title">Similar Movies</p>
-      <div class="similar-list">
-        <div class="similar-card" onclick="window.location='https://vegaduo.com/49155-the-four-gates-of-death.html'">
-          <img src="https://vegaduo.com/uploads/posts/2026-03/1614492_poster_1773907018.jpg">
-          <div>The Four Gates of Death</div>
-        </div>
-        <div class="similar-card" onclick="window.location='https://vegaduo.com/48935-skate-to-hell.html'">
-          <img src="https://vegaduo.com/uploads/posts/2026-03/1301270_poster_1773480060.jpg">
-          <div>Skate to Hell</div>
-        </div>
-        <div class="similar-card" onclick="window.location='https://vegaduo.com/49025-lazarus-heroification.html'">
-          <img src="https://vegaduo.com/uploads/posts/2026-03/1567348_poster_1773765828.jpg">
-          <div>Lazarus Heroification</div>
-        </div>
-      </div>
+      <div class="similar-list" id="similarMovies"></div>
 
     </div>
 
-    <!-- RIGHT: POPULAR TV SERIES -->
+    <!-- RIGHT SIDE: POPULAR -->
     <div>
       <p class="section-title">Popular TV Series</p>
-      <div class="popular-list">
-        <div class="popular-card" onclick="window.location='https://vegaduo.com/15385-game-of-thrones.html'">
-          <img src="https://vegaduo.com/uploads/posts/2023-03/got2011.jpg">
-          <div>Game of Thrones <br><small>2011 | 6.8</small></div>
-        </div>
-        <div class="popular-card" onclick="window.location='https://vegaduo.com/42020-mandala-murders.html'">
-          <img src="https://vegaduo.com/uploads/posts/2025-08/247831_poster_1756183821.jpg">
-          <div>Mandala Murders <br><small>2025 | 2.6</small></div>
-        </div>
-        <div class="popular-card" onclick="window.location='https://vegaduo.com/41890-butterfly.html'">
-          <img src="https://vegaduo.com/uploads/posts/2025-08/227114_poster_1755750472.jpg">
-          <div>Butterfly <br><small>2025 | 2.8</small></div>
-        </div>
-      </div>
+      <div class="popular-list" id="popularList"></div>
     </div>
 
   </div>
 </div>
 
+<script>
+
+// 📌 API KEY
+const API_KEY = "vajira-1rtwuqyc48-1774786581090";
+
+// ➤ GET URL PARAM
+function getParam(name) {
+  return new URLSearchParams(window.location.search).get(name);
+}
+
+// ➤ LOAD MOVIE DATA
+async function loadMovie() {
+  const linkParam = getParam("link");
+  if (!linkParam) {
+    alert("No movie selected!");
+    return;
+  }
+
+  // ensure full link
+  const link = linkParam.startsWith("http")
+    ? linkParam
+    : "https://vegaduo.com/" + linkParam;
+
+  const url = `https://vajira-official-apis.vercel.app/api/vegamoviedl?apikey=${API_KEY}&link=${encodeURIComponent(link)}`;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (!data || !data.result) {
+      throw new Error("Invalid API response");
+    }
+
+    const m = data.result;
+
+    document.getElementById("title").innerText = m.title;
+    document.getElementById("subinfo").innerText = `${m.date} • ${m.country} • ${m.duration}`;
+
+    document.getElementById("poster").src = m.image;
+    document.getElementById("origTitle").innerText = m.originalTitle;
+    document.getElementById("releaseDate").innerText = m.date;
+    document.getElementById("country").innerText = m.country;
+    document.getElementById("duration").innerText = m.duration;
+    document.getElementById("description").innerText = m.description;
+
+    // video source (if available)
+    if (m.downloads && m.downloads.length) {
+      document.getElementById("videoSrc").src = m.downloads[0].url;
+      document.getElementById("moviePlayer").load();
+    }
+
+    // genres
+    const genresDiv = document.getElementById("genres");
+    genresDiv.innerHTML = "";
+    m.genres.forEach(g => {
+      genresDiv.innerHTML += `<a href="${g.url}">${g.genreName}</a>`;
+    });
+
+    // downloads
+    const dlDiv = document.getElementById("downloads");
+    dlDiv.innerHTML = "";
+    m.downloads.forEach(dl => {
+      dlDiv.innerHTML += `<a href="${dl.url}" target="_blank">${dl.buttonLabel}</a>`;
+    });
+
+    // similar
+    const simDiv = document.getElementById("similarMovies");
+    simDiv.innerHTML = "";
+    m.similarTitles.forEach(s => {
+      simDiv.innerHTML += `
+        <div class="similar-card" onclick="location.href='?link=${encodeURIComponent(s.url)}'">
+          <img src="${s.image}">
+          <div>${s.title}</div>
+        </div>
+      `;
+    });
+
+    // popular
+    const popDiv = document.getElementById("popularList");
+    popDiv.innerHTML = "";
+    m.popularTVSeries.forEach(p => {
+      popDiv.innerHTML += `
+        <div class="popular-card" onclick="location.href='?link=${encodeURIComponent(p.url)}'">
+          <img src="${p.image}">
+          <div>${p.title} <br><small>${p.releaseYear} • ⭐${p.rating}</small></div>
+        </div>
+      `;
+    });
+
+  } catch (e) {
+    console.error(e);
+    alert("Failed to load movie data.");
+  }
+}
+
+// load when page opens
+window.onload = loadMovie;
+
+</script>
 </body>
 </html>
