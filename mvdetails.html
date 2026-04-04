@@ -4,127 +4,143 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Movie Details</title>
-
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 <style>
-
 /* GLOBAL RESET */
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
-html{scroll-behavior:smooth;}
-body{background:#121212;color:#eee;line-height:1.6;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Roboto',sans-serif;}
+body{background:#121212;color:#fff;}
+a{text-decoration:none;color:inherit;}
+.container{max-width:1200px;margin:auto;padding:20px;}
 
-/* CONTAINER */
-.container{max-width:1200px;margin:auto;padding:15px;}
-
-/* HEADER */
-.header{display:flex;gap:20px;margin-top:20px;}
-.header img{width:300px;border-radius:8px;}
-
-/* MOVIE INFO */
-.info{flex:1;}
-.info h1{
+/* HERO SECTION */
+.hero{
+    position:relative;
+    display:flex;
+    flex-wrap:wrap;
+    background:#1e1e1e;
+    border-radius:10px;
+    overflow:hidden;
+    margin-bottom:30px;
+}
+.hero img.poster{
+    width:300px;
+    object-fit:cover;
+    border-radius:10px 0 0 10px;
+}
+.hero .info{
+    flex:1;
+    padding:20px 30px;
+}
+.hero .info h1{
     font-size:2.5rem;
-    margin-bottom:10px;
-    color:#fff;
+    margin-bottom:15px;
 }
-.info .meta{font-size:0.9rem;color:#aaa;margin-bottom:15px;}
-.info .meta span{margin-right:15px;}
-
-.desc{
-    margin:15px 0 30px 0;
-    color:#ccc;
-}
-
-/* BUTTONS */
-.btn{
+.hero .info .meta span{
     display:inline-block;
+    margin-right:20px;
+    color:#ccc;
+    font-weight:500;
+}
+.hero .info .desc{
+    margin:20px 0;
+    font-size:1rem;
+    line-height:1.6;
+    color:#ddd;
+}
+
+/* GENRES */
+.genres{
+    margin-top:10px;
+}
+.genres .genre-btn{
+    display:inline-block;
+    margin:5px 5px 0 0;
+    padding:8px 15px;
     background:#e50914;
     color:#fff;
-    text-transform:uppercase;
-    font-weight:bold;
-    padding:12px 22px;
-    border-radius:5px;
-    margin-right:10px;
-    font-size:0.9rem;
+    border-radius:20px;
+    font-size:0.85rem;
+    transition:0.3s;
     cursor:pointer;
+}
+.genres .genre-btn:hover{background:#ff1a2c;}
+
+/* DOWNLOAD BUTTONS */
+.downloads{
+    margin:30px 0;
+}
+.downloads h2{
+    margin-bottom:15px;
+    font-size:1.5rem;
+    border-bottom:2px solid #444;
+    padding-bottom:5px;
+}
+.downloads .btn-download{
+    display:inline-block;
+    margin:10px 10px 0 0;
+    padding:12px 20px;
+    background:#0288d1;
+    color:#fff;
+    border-radius:8px;
+    font-weight:500;
     transition:0.3s;
 }
-.btn:hover{background:#ff1a2c;}
+.downloads .btn-download:hover{background:#03a9f4;}
 
-/* VIDEO */
-.video-container{
-    margin-top:30px;
-    background:#000;
-    border-radius:8px;
-    overflow:hidden;
-}
-.video-container video{
-    width:100%;
-    height:100%;
-}
-
-/* SECTIONS */
+/* SIMILAR MOVIES / CAROUSEL */
 .section-title{
     font-size:1.5rem;
     margin:30px 0 15px;
     border-bottom:2px solid #444;
     padding-bottom:5px;
-    color:#fff;
 }
-
-/* CARD LISTS */
 .list-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
     gap:15px;
 }
-
 .card{
     background:#1e1e1e;
-    border-radius:8px;
+    border-radius:10px;
     overflow:hidden;
     cursor:pointer;
     transition:0.3s;
 }
-.card:hover{
-    transform:translateY(-5px);
-}
-.card img{
-    width:100%;
-    height:230px;
-    object-fit:cover;
-}
+.card:hover{transform:scale(1.05);}
+.card img{width:100%;height:220px;object-fit:cover;}
 .card-title{
-    padding:8px;
+    padding:10px;
     font-size:0.9rem;
     color:#fff;
 }
 
-/* DOWNLOAD LINKS */
-.download-list .btn-download{
-    display:block;
-    background:#0288d1;
-    margin:8px 0;
-    text-align:center;
+/* VIDEO */
+.video-container{
+    margin:30px 0;
+    border-radius:10px;
+    overflow:hidden;
+    background:#000;
 }
-.download-list .btn-download:hover{
-    background:#03a9f4;
+.video-container video{
+    width:100%;
+    border-radius:10px;
 }
 
 /* RESPONSIVE */
 @media(max-width:768px){
-    .header{flex-direction:column;align-items:center;}
-    .header img{width:80%;}
+    .hero{flex-direction:column;align-items:center;}
+    .hero img.poster{width:80%;border-radius:10px 10px 0 0;}
+    .hero .info{padding:20px;}
 }
 </style>
-
 </head>
 <body>
 
 <div class="container">
 
-    <!-- MOVIE HEADER -->
-    <div class="header">
-        <img id="moviePoster" src="" alt="Poster">
+    <!-- HERO SECTION -->
+    <div class="hero">
+        <img id="moviePoster" class="poster" src="" alt="Poster">
         <div class="info">
             <h1 id="movieTitle">Loading...</h1>
             <div class="meta">
@@ -133,11 +149,11 @@ body{background:#121212;color:#eee;line-height:1.6;}
                 <span id="movieDuration"></span>
             </div>
             <div class="desc" id="movieDesc"></div>
-            <div id="genreButtons"></div>
+            <div class="genres" id="genreButtons"></div>
         </div>
     </div>
 
-    <!-- VIDEO PLAYER -->
+    <!-- VIDEO -->
     <div class="video-container" id="videoPlayerWrap" style="display:none;">
         <video controls id="videoPlayer">
             <source id="videoSrc" src="">
@@ -145,21 +161,18 @@ body{background:#121212;color:#eee;line-height:1.6;}
     </div>
 
     <!-- DOWNLOAD LINKS -->
-    <div class="section-title">Download Links</div>
-    <div class="download-list" id="downloadLinks"></div>
+    <div class="downloads">
+        <h2>Download Links</h2>
+        <div id="downloadLinks"></div>
+    </div>
 
     <!-- SIMILAR MOVIES -->
     <div class="section-title">Similar Movies</div>
     <div class="list-grid" id="similarMovies"></div>
 
-    <!-- POPULAR TV SERIES -->
-    <div class="section-title">Popular TV Series</div>
-    <div class="list-grid" id="popularSeries"></div>
-
 </div>
 
 <script>
-
 // ===== API CONFIG =====
 const API_KEY = "vajira-1rtwuqyc48-1774786581090";
 
@@ -169,26 +182,17 @@ function getQueryParam(param) {
 
 async function loadMovieDetails() {
     let link = getQueryParam("link");
-    if (!link) {
-        alert("No movie selected!");
-        return;
-    }
+    if (!link) { alert("No movie selected!"); return; }
+    if (!link.startsWith("http")) { link = "https://vegaduo.com/" + link; }
 
-    if (!link.startsWith("http")) {
-        link = "https://vegaduo.com/" + link;
-    }
-
-    const url = 
-`https://vajira-official-apis.vercel.app/api/vegamoviedl?apikey=${API_KEY}&link=${encodeURIComponent(link)}`;
+    const url = `https://vajira-official-apis.vercel.app/api/vegamoviedl?apikey=${API_KEY}&link=${encodeURIComponent(link)}`;
 
     try {
         const res = await fetch(url);
         const data = await res.json();
-
-        if (!data || !data.result) throw new Error("Invalid API");
-
         const m = data.result;
 
+        // HERO
         document.getElementById("movieTitle").innerText = m.title;
         document.getElementById("moviePoster").src = m.image;
         document.getElementById("movieYear").innerText = m.date;
@@ -196,60 +200,42 @@ async function loadMovieDetails() {
         document.getElementById("movieDuration").innerText = m.duration;
         document.getElementById("movieDesc").innerText = m.description;
 
-        // genres
+        // GENRES
         const genresDiv = document.getElementById("genreButtons");
         genresDiv.innerHTML = "";
         m.genres.forEach(g => {
-            genresDiv.innerHTML += `<span class="btn" onclick="location.href='${g.url}'">${g.genreName}</span>`;
+            genresDiv.innerHTML += `<span class="genre-btn" onclick="location.href='${g.url}'">${g.genreName}</span>`;
         });
 
-        // video (if downloads exist)
-        if (m.downloads && m.downloads.length > 0) {
-            document.getElementById("videoPlayerWrap").style.display = "block";
+        // VIDEO PLAYER (use first download as video)
+        if (m.downloads && m.downloads.length>0){
+            document.getElementById("videoPlayerWrap").style.display="block";
             document.getElementById("videoSrc").src = m.downloads[0].url;
             document.getElementById("videoPlayer").load();
         }
 
-        // downloads
+        // DOWNLOAD BUTTONS
         const dlDiv = document.getElementById("downloadLinks");
         dlDiv.innerHTML = "";
         m.downloads.forEach(d => {
-            dlDiv.innerHTML += `
-                <a class="btn btn-download" href="${d.url}" target="_blank">
-                    ${d.buttonLabel}
-                </a>`;
+            dlDiv.innerHTML += `<a class="btn-download" href="${d.url}" target="_blank">${d.buttonLabel}</a>`;
         });
 
-        // similar
+        // SIMILAR MOVIES
         const simDiv = document.getElementById("similarMovies");
         simDiv.innerHTML = "";
-        m.similarTitles.forEach(s => {
+        m.similarTitles.forEach(s=>{
             simDiv.innerHTML += `
-            <div class="card" onclick="location.href='mvdetails.html?link=${encodeURIComponent(s.url)}'">
+            <div class="card" onclick="location.href='?link=${encodeURIComponent(s.url)}'">
                 <img src="${s.image}">
                 <div class="card-title">${s.title}</div>
             </div>`;
         });
 
-        // popular tv
-        const popDiv = document.getElementById("popularSeries");
-        popDiv.innerHTML = "";
-        m.popularTVSeries.forEach(p => {
-            popDiv.innerHTML += `
-            <div class="card" onclick="location.href='mvdetails.html?link=${encodeURIComponent(p.url)}'">
-                <img src="${p.image}">
-                <div class="card-title">${p.title} • ${p.releaseYear}</div>
-            </div>`;
-        });
-
-    } catch (err) {
-        console.error(err);
-        alert("Failed to load movie details.");
-    }
+    } catch(e){console.error(e); alert("Failed to load movie details."); }
 }
 
 window.onload = loadMovieDetails;
-
 </script>
 
 </body>
