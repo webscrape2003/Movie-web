@@ -3,265 +3,193 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vegamovies Premium - Player</title>
-
+<title>Space Wars: Quest for the Deepstar (2023) - Movie Details</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
-    --bg-body:#0a0a0a;
-    --bg-content:#161616;
-    --accent-blue:#007bff;
-    --text-white:#fff;
+  --primary:#0d6efd;
+  --secondary:#6c757d;
+  --bg:#0f0f0f;
+  --card:#1a1a1a;
+  --text:#fff;
+  --accent:#ffc107;
 }
-
-body{
-    background:var(--bg-body);
-    color:#fff;
-    font-family:Segoe UI;
-    margin:0;
+body {
+  margin:0;
+  font-family: 'Roboto', sans-serif;
+  background: var(--bg);
+  color: var(--text);
 }
-
-/* HEADER */
-.top-nav{
-    background:#000;
-    padding:15px;
-    font-size:22px;
-    font-weight:bold;
-    text-align:center;
+a {text-decoration:none;color:var(--primary);}
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
 }
-
-/* LOADING */
-#loading{
-    display:none;
-    text-align:center;
-    padding:20px;
-    color:#2ecc71;
+.header {
+  text-align:center;
+  margin-bottom: 30px;
 }
-
-/* MAIN */
-.wrapper{
-    max-width:1200px;
-    margin:20px auto;
-    display:grid;
-    grid-template-columns:1fr 300px;
-    gap:20px;
+.header h1 {
+  font-size: 2rem;
+  margin-bottom: 5px;
 }
-
-/* PLAYER */
-.player-box{
-    width:100%;
-    background:#000;
-    aspect-ratio:16/9;
-    position:relative;
+.header p {color:var(--secondary);}
+.main-grid {
+  display:grid;
+  grid-template-columns: 2fr 1fr;
+  gap:20px;
 }
-
-#moviePlayer{width:100%;height:100%;}
-
-.overlay{
-    position:absolute;
-    inset:0;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background-size:cover;
+.movie-card {
+  background: var(--card);
+  border-radius: 10px;
+  overflow:hidden;
+  padding:20px;
 }
-
-.p-btn{
-    width:80px;
-    height:80px;
-    border-radius:50%;
-    background:#2ecc71;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:30px;
-    cursor:pointer;
+.movie-card img {
+  width:100%;
+  border-radius:10px;
+  margin-bottom:15px;
 }
-
-/* DETAILS */
-.meta{
-    display:flex;
-    gap:20px;
-    padding:20px;
+.movie-info p {
+  margin:5px 0;
 }
-
-.poster{
-    width:200px;
+.genre-list, .download-list, .similar-list, .popular-list {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:10px;
 }
-
-.info p{margin:8px 0}
-
-/* DOWNLOAD */
-.btn{
-    display:block;
-    background:#007bff;
-    padding:12px;
-    margin:10px;
-    text-align:center;
-    color:#fff;
-    text-decoration:none;
+.genre-list a, .download-list a {
+  background: var(--primary);
+  padding:8px 12px;
+  border-radius:5px;
+  color:#fff;
+  font-size:0.9rem;
 }
-
-/* SIDEBAR */
-.side-card{
-    display:flex;
-    margin:10px;
-    cursor:pointer;
+.download-list a{background:var(--accent);color:#000;}
+.similar-card, .popular-card {
+  background:var(--card);
+  width:150px;
+  border-radius:8px;
+  overflow:hidden;
+  cursor:pointer;
+  transition:0.3s;
 }
-.side-card img{width:70px}
+.similar-card:hover, .popular-card:hover {transform:scale(1.05);}
+.similar-card img, .popular-card img {width:100%; height:200px; object-fit:cover;}
+.similar-card div, .popular-card div {padding:5px; font-size:0.85rem;}
+.video-box {
+  position:relative;
+  width:100%;
+  padding-top:56.25%;
+  background:#000;
+  margin-bottom:20px;
+  border-radius:10px;
+  overflow:hidden;
+}
+.video-box video {
+  position:absolute;
+  top:0; left:0; width:100%; height:100%;
+}
+.section-title {
+  font-weight:700;
+  margin-top:20px;
+  margin-bottom:10px;
+  font-size:1.2rem;
+  border-bottom:1px solid var(--secondary);
+  padding-bottom:5px;
+}
+@media(max-width:900px){
+  .main-grid {grid-template-columns:1fr;}
+  .similar-card, .popular-card{width:120px;}
+}
 </style>
 </head>
-
 <body>
 
-<div class="top-nav">🎬 VEGAMOVIES PLAYER</div>
+<div class="container">
 
-<div id="loading">Loading movie...</div>
+  <!-- HEADER -->
+  <div class="header">
+    <h1>Space Wars: Quest for the Deepstar (2023)</h1>
+    <p>Original Title: Space Wars: Quest for the Deepstar | 90 Min | United States | Action / Adventure / Sci-Fi</p>
+  </div>
 
-<div class="wrapper" id="mainUI" style="display:none;">
+  <div class="main-grid">
 
-<!-- MAIN -->
-<div>
-<h2 id="mTitle"></h2>
+    <!-- LEFT: MOVIE DETAILS -->
+    <div>
+      <div class="video-box">
+        <video controls poster="https://vegaduo.com/uploads/posts/2023-10/986210_poster_1696996257.jpg">
+          <source src="https://vegaduo.com/engine/go.php?url=PGEgaHJlZj0iaHR0cHM6Ly9kb3dubG9hZC5iYnVwbG9hZC50by9kb3dubG9hZD92PUc1QUpTM1lIIiB0YXJnZXQ9Il9ibGFuayIgcmVsPSJub29wZW5lciBleHRlcm5hbCBub3JlZmVycmVyIj48YSBocmVmPSJodHRwczovL2Rvd25sb2FkLmJidXBsb2FkLnRvL2Rvd25sb2FkP3Y9RzVBSlMzWUg8L2E%2BPC9hPg%3D%3D" type="video/mp4">
+        </video>
+      </div>
 
-<div class="player-box">
-<div id="pOverlay" class="overlay">
-<div class="p-btn" onclick="startPlay()">▶</div>
+      <div class="movie-card">
+        <img src="https://vegaduo.com/uploads/posts/2023-10/986210_poster_1696996257.jpg" alt="Movie Poster">
+        <div class="movie-info">
+          <p><strong>Release Date:</strong> Oct 24, 2023</p>
+          <p><strong>Country:</strong> United States</p>
+          <p><strong>Duration:</strong> 90 Min</p>
+          <p><strong>Genres:</strong></p>
+          <div class="genre-list">
+            <a href="https://vegaduo.com/action/">Action</a>
+            <a href="https://vegaduo.com/adventure/">Adventure</a>
+            <a href="https://vegaduo.com/sci-fi/">Sci-Fi</a>
+          </div>
+          <p><strong>Description:</strong></p>
+          <p>Space Wars: Quest for the Deepstar (2023)  Watch online Movies Free Download</p>
+
+          <p class="section-title">Download Links</p>
+          <div class="download-list">
+            <a href="/engine/go.php?url=PGEgaHJlZj0iaHR0cHM6Ly9kb3dubG9hZC5iYnVwbG9hZC50by9kb3dubG9hZD92PUc1QUpTM1lIIiB0YXJnZXQ9Il9ibGFuayIgcmVsPSJub29wZW5lciBleHRlcm5hbCBub3JlZmVycmVyIj48YSBocmVmPSJodHRwczovL2Rvd25sb2FkLmJidXBsb2FkLnRvL2Rvd25sb2FkP3Y9RzVBSlMzWUg8L2E%2BPC9hPg%3D%3D" target="_blank">Download Link 1</a>
+            <a href="/engine/go.php?url=PGEgaHJlZj0iaHR0cHM6Ly9kb3dubG9hZC5iYnVwbG9hZC50by9kb3dubG9hZD92PUQwVUZSTEpJIiB0YXJnZXQ9Il9ibGFuayIgcmVsPSJub29wZW5lciBleHRlcm5hbCBub3JlZmVycmVyIj48YSBocmVmPSJodHRwczovL2Rvd25sb2FkLmJidXBsb2FkLnRvL2Rvd25sb2FkP3Y9RDBVRlJMSkk8L2E%2BPC9hPg%3D%3D" target="_blank">Download Link 2</a>
+            <a href="/engine/go.php?url=PGEgaHJlZj0iaHR0cHM6Ly9kb3dubG9hZC5iYnVwbG9hZC50by9kb3dubG9hZD92PUozOTg2V1Y3IiB0YXJnZXQ9Il9ibGFuayIgcmVsPSJub29wZW5lciBleHRlcm5hbCBub3JlZmVycmVyIj48YSBocmVmPSJodHRwczovL2Rvd25sb2FkLmJidXBsb2FkLnRvL2Rvd25sb2FkP3Y9SjM5ODZXVjc8L2E%2B" target="_blank">Download Link 3</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Similar Titles -->
+      <p class="section-title">Similar Movies</p>
+      <div class="similar-list">
+        <div class="similar-card" onclick="window.location='https://vegaduo.com/49155-the-four-gates-of-death.html'">
+          <img src="https://vegaduo.com/uploads/posts/2026-03/1614492_poster_1773907018.jpg">
+          <div>The Four Gates of Death</div>
+        </div>
+        <div class="similar-card" onclick="window.location='https://vegaduo.com/48935-skate-to-hell.html'">
+          <img src="https://vegaduo.com/uploads/posts/2026-03/1301270_poster_1773480060.jpg">
+          <div>Skate to Hell</div>
+        </div>
+        <div class="similar-card" onclick="window.location='https://vegaduo.com/49025-lazarus-heroification.html'">
+          <img src="https://vegaduo.com/uploads/posts/2026-03/1567348_poster_1773765828.jpg">
+          <div>Lazarus Heroification</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: POPULAR TV SERIES -->
+    <div>
+      <p class="section-title">Popular TV Series</p>
+      <div class="popular-list">
+        <div class="popular-card" onclick="window.location='https://vegaduo.com/15385-game-of-thrones.html'">
+          <img src="https://vegaduo.com/uploads/posts/2023-03/got2011.jpg">
+          <div>Game of Thrones <br><small>2011 | 6.8</small></div>
+        </div>
+        <div class="popular-card" onclick="window.location='https://vegaduo.com/42020-mandala-murders.html'">
+          <img src="https://vegaduo.com/uploads/posts/2025-08/247831_poster_1756183821.jpg">
+          <div>Mandala Murders <br><small>2025 | 2.6</small></div>
+        </div>
+        <div class="popular-card" onclick="window.location='https://vegaduo.com/41890-butterfly.html'">
+          <img src="https://vegaduo.com/uploads/posts/2025-08/227114_poster_1755750472.jpg">
+          <div>Butterfly <br><small>2025 | 2.8</small></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
-
-<video id="moviePlayer" controls>
-<source id="vSrc">
-</video>
-</div>
-
-<div class="meta">
-<img id="mImg" class="poster">
-<div class="info">
-<p><b>Title:</b> <span id="mOrig"></span></p>
-<p><b>Date:</b> <span id="mDate"></span></p>
-<p><b>Duration:</b> <span id="mDur"></span></p>
-<p><b>Country:</b> <span id="mCtry"></span></p>
-</div>
-</div>
-
-<div id="dlLinks"></div>
-
-<p id="mDesc" style="padding:20px;"></p>
-
-</div>
-
-<!-- SIDEBAR -->
-<div id="popList"></div>
-
-</div>
-
-<script>
-const KEY = "vajira-4h3jzwtl78-1775239300004";
-
-/* GET URL PARAM */
-function getParam(name){
-    const url = new URLSearchParams(window.location.search);
-    return url.get(name);
-}
-
-/* AUTO LOAD */
-window.onload = () => {
-    let link = getParam("link");
-    const title = getParam("title");
-    const image = getParam("image");
-
-    if(title) document.getElementById("mTitle").innerText = title;
-    if(image) document.getElementById("mImg").src = image;
-
-    if(link){
-        fetchFullAPI(link);
-    }else{
-        alert("No movie selected!");
-    }
-};
-
-/* FETCH API */
-async function fetchFullAPI(link){
-    document.getElementById('loading').style.display='block';
-
-    // 🔥 FIX LINK (IMPORTANT)
-    if (!link.startsWith("http")) {
-        link = "https://vegaduo.com/" + link;
-    }
-
-    const api = `https://vajira-official-apis.vercel.app/api/vegamoviedl?apikey=${KEY}&link=${encodeURIComponent(link)}`;
-
-    try{
-        const res = await fetch(api);
-        const data = await res.json();
-
-        // 🔒 SAFE CHECK
-        if (!data || !data.result) {
-            throw new Error("Invalid API response");
-        }
-
-        const m = data.result;
-
-        document.getElementById('mainUI').style.display='grid';
-        document.getElementById('loading').style.display='none';
-
-        document.getElementById('mTitle').innerText = m.title;
-        document.getElementById('mImg').src = m.image;
-        document.getElementById('mOrig').innerText = m.originalTitle;
-        document.getElementById('mDate').innerText = m.date;
-        document.getElementById('mDur').innerText = m.duration;
-        document.getElementById('mCtry').innerText = m.country;
-        document.getElementById('mDesc').innerText = m.description;
-
-        const vid = document.getElementById('moviePlayer');
-        const overlay = document.getElementById('pOverlay');
-
-        overlay.style.backgroundImage = `url('${m.image}')`;
-
-        if(m.downloads && m.downloads.length > 0){
-            document.getElementById('vSrc').src = m.downloads[0].url;
-            vid.load();
-        }
-
-        // DOWNLOAD LINKS
-        const dl = document.getElementById('dlLinks');
-        dl.innerHTML = '';
-
-        m.downloads.forEach(d=>{
-            dl.innerHTML += `<a href="${d.url}" target="_blank" class="btn">${d.buttonLabel}</a>`;
-        });
-
-        // SIDEBAR
-        const side = document.getElementById('popList');
-        side.innerHTML = '';
-
-        m.popularTVSeries.forEach(tv=>{
-            const div = document.createElement('div');
-            div.className='side-card';
-            div.onclick=()=>fetchFullAPI(tv.url);
-
-            div.innerHTML=`
-            <img src="${tv.image}">
-            <div>
-            <div>${tv.title}</div>
-            <small>${tv.releaseYear}</small>
-            </div>`;
-
-            side.appendChild(div);
-        });
-
-    }catch(e){
-        console.error(e);
-        alert("API error or invalid link ❌");
-        document.getElementById('loading').style.display='none';
-    }
-}
-
-/* PLAY */
-function startPlay(){
-    document.getElementById('pOverlay').style.display='none';
-    document.getElementById('moviePlayer').play();
-}
-</script>
 
 </body>
 </html>
