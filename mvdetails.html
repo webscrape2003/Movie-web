@@ -3,17 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vajiramovies Premium - Player</title>
+<title>Vegamovies Premium - Player</title>
 
 <style>
 :root {
     --bg-body:#0a0a0a;
     --bg-content:#161616;
     --accent-blue:#007bff;
-    --text-gold:#f39c12;
-    --text-white:#ffffff;
-    --text-dim:#909090;
-    --res-red:#ff4d4d;
+    --text-white:#fff;
 }
 
 body{
@@ -26,9 +23,10 @@ body{
 /* HEADER */
 .top-nav{
     background:#000;
-    padding:15px 5%;
+    padding:15px;
     font-size:22px;
     font-weight:bold;
+    text-align:center;
 }
 
 /* LOADING */
@@ -121,6 +119,7 @@ body{
 
 <div class="wrapper" id="mainUI" style="display:none;">
 
+<!-- MAIN -->
 <div>
 <h2 id="mTitle"></h2>
 
@@ -146,7 +145,7 @@ body{
 
 <div id="dlLinks"></div>
 
-<p id="mDesc"></p>
+<p id="mDesc" style="padding:20px;"></p>
 
 </div>
 
@@ -166,7 +165,7 @@ function getParam(name){
 
 /* AUTO LOAD */
 window.onload = () => {
-    const link = getParam("link");
+    let link = getParam("link");
     const title = getParam("title");
     const image = getParam("image");
 
@@ -184,11 +183,22 @@ window.onload = () => {
 async function fetchFullAPI(link){
     document.getElementById('loading').style.display='block';
 
+    // 🔥 FIX LINK (IMPORTANT)
+    if (!link.startsWith("http")) {
+        link = "https://vegaduo.com/" + link;
+    }
+
     const api = `https://vajira-official-apis.vercel.app/api/vegamoviedl?apikey=${KEY}&link=${encodeURIComponent(link)}`;
 
     try{
         const res = await fetch(api);
         const data = await res.json();
+
+        // 🔒 SAFE CHECK
+        if (!data || !data.result) {
+            throw new Error("Invalid API response");
+        }
+
         const m = data.result;
 
         document.getElementById('mainUI').style.display='grid';
@@ -207,19 +217,20 @@ async function fetchFullAPI(link){
 
         overlay.style.backgroundImage = `url('${m.image}')`;
 
-        if(m.downloads.length > 0){
+        if(m.downloads && m.downloads.length > 0){
             document.getElementById('vSrc').src = m.downloads[0].url;
             vid.load();
         }
 
+        // DOWNLOAD LINKS
         const dl = document.getElementById('dlLinks');
         dl.innerHTML = '';
 
         m.downloads.forEach(d=>{
-            dl.innerHTML += `<a href=\"${d.url}\" target=\"_blank\" class=\"btn\">${d.buttonLabel}</a>`;
+            dl.innerHTML += `<a href="${d.url}" target="_blank" class="btn">${d.buttonLabel}</a>`;
         });
 
-        /* SIDEBAR */
+        // SIDEBAR
         const side = document.getElementById('popList');
         side.innerHTML = '';
 
@@ -229,7 +240,7 @@ async function fetchFullAPI(link){
             div.onclick=()=>fetchFullAPI(tv.url);
 
             div.innerHTML=`
-            <img src=\"${tv.image}\">
+            <img src="${tv.image}">
             <div>
             <div>${tv.title}</div>
             <small>${tv.releaseYear}</small>
@@ -239,7 +250,8 @@ async function fetchFullAPI(link){
         });
 
     }catch(e){
-        alert("API error");
+        console.error(e);
+        alert("API error or invalid link ❌");
         document.getElementById('loading').style.display='none';
     }
 }
