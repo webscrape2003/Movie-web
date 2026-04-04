@@ -64,7 +64,8 @@
         }
 
         resultsDiv.innerHTML = data.result.map(movie => `
-          <div class="bg-gray-800 rounded-2xl overflow-hidden shadow-xl hover:scale-105 hover:shadow-2xl transition duration-300">
+          <div onclick="goToDetails('${movie.title}','${movie.image}','${movie.year}','${movie.rating}','${movie.quality}','${movie.link}')"
+            class="cursor-pointer bg-gray-800 rounded-2xl overflow-hidden shadow-xl hover:scale-105 hover:shadow-2xl transition duration-300">
             <div class="relative">
               <img src="${movie.image}" class="w-full h-64 object-cover">
               <span class="absolute top-2 right-2 bg-blue-600 text-xs px-2 py-1 rounded">${movie.quality}</span>
@@ -73,11 +74,6 @@
             <div class="p-3">
               <h2 class="font-semibold text-sm truncate">${movie.title}</h2>
               <p class="text-xs text-gray-400">${movie.year} • ⭐ ${movie.rating}</p>
-
-              <a href="https://vegaduo.com/${movie.link}" target="_blank"
-                class="block mt-3 text-center bg-blue-600 p-2 rounded-lg text-sm hover:bg-blue-700 transition">
-                Watch Now
-              </a>
             </div>
           </div>
         `).join('');
@@ -87,6 +83,12 @@
         resultsDiv.innerHTML = '<p class="text-center col-span-full">Error loading movies ❌</p>';
         console.error(err);
       }
+    }
+
+    // REDIRECT TO DETAILS PAGE
+    function goToDetails(title, image, year, rating, quality, link) {
+      const url = `mvdetails.html?title=${encodeURIComponent(title)}&image=${encodeURIComponent(image)}&year=${year}&rating=${rating}&quality=${quality}&link=${encodeURIComponent(link)}`;
+      window.location.href = url;
     }
 
     // ENTER KEY SEARCH
